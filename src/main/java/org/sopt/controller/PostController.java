@@ -10,15 +10,6 @@ public class PostController {
     private PostService postService = new PostService();
     private int postId;
 
-
-//    public Object selectMethod(int inputCase) {
-//        switch (inputCase) {
-//            case 1:
-//                createPost();
-//
-//        }
-//    }
-
     public void createPost(String title) {
         Post post = new Post(postId++, title);
         postService.createPost(post);
