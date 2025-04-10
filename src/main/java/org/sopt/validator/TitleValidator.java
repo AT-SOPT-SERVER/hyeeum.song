@@ -1,4 +1,4 @@
-package validator;
+package org.sopt.validator;
 
 public class TitleValidator {
 
