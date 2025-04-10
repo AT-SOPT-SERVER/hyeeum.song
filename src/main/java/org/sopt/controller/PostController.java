@@ -17,16 +17,15 @@ public class PostController {
         // TODO: 3분이 지났는지 판별하는 로직을 어디에 두어야할까? 흐음
         LocalDateTime currentTime = LocalDateTime.now();
 
-        if (LastTimeStampGeneratorUtil.getLastTimeStamp() == null)
+        if (LastTimeStampGeneratorUtil.getLastTimeStamp() == null) {
+            Post post = new Post(IdentifierGeneratorUtil.generateIdentifier(), title);
             LastTimeStampGeneratorUtil.setLastTimeStamp(currentTime);
-        else {
+            postService.createPost(post);
+        } else {
             Duration duration = Duration.between(LastTimeStampGeneratorUtil.getLastTimeStamp(), currentTime);
             if (duration.toMinutes() < 3)
                 throw new IllegalArgumentException("새 게시글은 3분이 지나고 난 후에 작성 가능합니다.");
         }
-
-        Post post = new Post(IdentifierGeneratorUtil.generateIdentifier(), title);
-        postService.createPost(post);
     }
 
     public List<Post> getAllPosts() {
