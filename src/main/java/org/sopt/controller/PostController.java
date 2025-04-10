@@ -30,4 +30,8 @@ public class PostController {
     public boolean updatePostTitle(int updateId, String newTitle) {
         return postService.updatePostTitle(updateId, newTitle);
     }
+
+    public List<Post> searchPostsByKeyword(String keyword) {
+        return postService.searchPostsByKeyword(keyword);
+    }
 }

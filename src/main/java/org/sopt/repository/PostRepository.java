@@ -36,4 +36,15 @@ public class PostRepository {
         }
         return false;
     }
+
+    public List<Post> searchPostsByKeyword(String keyword) {
+        List<Post> searchedPostList = new ArrayList<>(); // 메모리 잡아먹을 듯함
+
+        for (Post post : postList) {
+            if (post.getTitle().contains(keyword)) {
+                searchedPostList.add(post);
+            }
+        }
+        return searchedPostList;
+    }
 }

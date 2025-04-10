@@ -44,4 +44,8 @@ public class PostService {
         if (TitleValidator.isTitleExceedsLength(title, TITLE_LENGTH_LIMIT))
             throw new IllegalArgumentException("제목은 30글자 이하만 입력 가능합니다.");
     }
+
+    public List<Post> searchPostsByKeyword(String keyword) {
+        return postRepository.searchPostsByKeyword(keyword);
+    }
 }

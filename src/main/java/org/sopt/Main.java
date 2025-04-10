@@ -3,6 +3,7 @@ package org.sopt;
 import org.sopt.controller.PostController;
 import org.sopt.domain.Post;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -77,20 +78,20 @@ public class Main {
                         }
                         break;
 
-//                case "6":
-//                    System.out.println("\n🔎 [게시글 검색]");
-//                    System.out.print("검색할 키워드를 입력해주세요: ");
-//                    String keyword = scanner.nextLine();
-//                    List<Post> results = controller.searchPostsByKeyword(keyword);
-//                    if (results.isEmpty()) {
-//                        System.out.println("🔍 검색 결과가 없습니다.");
-//                    } else {
-//                        System.out.println("📋 검색 결과:");
-//                        for (Post post : results) {
-//                            System.out.printf("🆔 %d | 📌 제목: %s\n", post.getId(), post.getTitle());
-//                        }
-//                    }
-//                    break;
+                case "6":
+                    System.out.println("\n🔎 [게시글 검색]");
+                    System.out.print("검색할 키워드를 입력해주세요: ");
+                    String keyword = scanner.nextLine();
+                    List<Post> results = controller.searchPostsByKeyword(keyword);
+                    if (results.isEmpty()) {
+                        System.out.println("🔍 검색 결과가 없습니다.");
+                    } else {
+                        System.out.println("📋 검색 결과:");
+                        for (Post post : results) {
+                            System.out.printf("🆔 %d | 📌 제목: %s\n", post.getId(), post.getTitle());
+                        }
+                    }
+                    break;
 
                     case "0":
                         System.out.println("\n👋 프로그램을 종료합니다. 감사합니다!");
