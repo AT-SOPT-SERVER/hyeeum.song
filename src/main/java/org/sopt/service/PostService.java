@@ -43,6 +43,8 @@ public class PostService {
         if (TitleValidator.isTitleBlank(title)) throw new IllegalArgumentException("제목은 한 글자 이상 입력해야합니다.");
         if (TitleValidator.isTitleExceedsLength(title, TITLE_LENGTH_LIMIT))
             throw new IllegalArgumentException("제목은 30글자 이하만 입력 가능합니다.");
+        // TODO: 중복 판별도 Validator 를 사용해서 할 수 있는지 확인필요함. 얘만 혼자 Repository 라서 신경쓰임
+        if (postRepository.isTitleDuplicated(title)) throw new IllegalArgumentException("이미 존재하는 제목입니다.");
     }
 
     public List<Post> searchPostsByKeyword(String keyword) {

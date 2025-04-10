@@ -47,4 +47,12 @@ public class PostRepository {
         }
         return searchedPostList;
     }
+
+    public boolean isTitleDuplicated(String title) {
+        for (Post postList : postList) {
+            if (title.equals(postList.getTitle()))
+                return true;
+        }
+        return false;
+    }
 }
