@@ -2,7 +2,7 @@ package org.sopt.service;
 
 import org.sopt.domain.Post;
 import org.sopt.repository.PostRepository;
-import validator.TitleValidator;
+import org.sopt.validator.TitleValidator;
 
 import java.util.List;
 
