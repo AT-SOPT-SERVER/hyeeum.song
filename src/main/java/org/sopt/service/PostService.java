@@ -9,7 +9,7 @@ import java.util.List;
 //레포지토리를 가져와서 사용하는 역할 (저장소 가져오기) - 로직
 public class PostService {
     private PostRepository postRepository = new PostRepository();
-    static final int TITLE_LENGTH_LIMIT = 30;
+    private static final int TITLE_LENGTH_LIMIT = 30;
 
     public void createPost(Post post) {
         validateTitle(post.getTitle());
