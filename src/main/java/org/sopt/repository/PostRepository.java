@@ -4,6 +4,7 @@ import org.sopt.domain.Post;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //게시글 저장,삭제 책임 (저장소)
 public class PostRepository {
@@ -38,14 +39,9 @@ public class PostRepository {
     }
 
     public List<Post> searchPostsByKeyword(String keyword) {
-        List<Post> searchedPostList = new ArrayList<>(); // 메모리 잡아먹을 듯함
-
-        for (Post post : postList) {
-            if (post.getTitle().contains(keyword)) {
-                searchedPostList.add(post);
-            }
-        }
-        return searchedPostList;
+        return postList.stream()
+                .filter(post -> post.getTitle().contains(keyword))
+                .collect(Collectors.toList());
     }
 
     public boolean isTitleDuplicated(String title) {
