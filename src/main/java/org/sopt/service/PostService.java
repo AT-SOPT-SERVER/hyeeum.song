@@ -4,15 +4,26 @@ import org.sopt.domain.Post;
 import org.sopt.repository.PostRepository;
 import org.sopt.validator.TitleValidator;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.sopt.util.IdentifierGeneratorUtil.generateIdentifier;
+import static org.sopt.util.LastTimeStampGeneratorUtil.getLastTimeStamp;
+import static org.sopt.util.LastTimeStampGeneratorUtil.setLastTimeStamp;
+import static org.sopt.validator.TimeStampValidator.validateLastTimeStampLimit;
 
 //레포지토리를 가져와서 사용하는 역할 (저장소 가져오기) - 로직
 public class PostService {
     private PostRepository postRepository = new PostRepository();
     private static final int TITLE_LENGTH_LIMIT = 30;
+    private static final int POST_TIME_LIMIT = 3;
 
-    public void createPost(Post post) {
-        validateTitle(post.getTitle());
+    public void createPost(String title) {
+        validateTimeStamp();
+        validateTitle(title);
+
+        Post post = new Post(generateIdentifier(), title);
+        setLastTimeStamp();
 
         postRepository.save(post);
     }
@@ -37,6 +48,13 @@ public class PostService {
 
         post.setTitle(newTitle);
         return true;
+    }
+
+    public void validateTimeStamp() {
+        LocalDateTime lastTimeStamp = getLastTimeStamp();
+
+        if (lastTimeStamp == null) return;
+        validateLastTimeStampLimit(getLastTimeStamp(), POST_TIME_LIMIT);
     }
 
     public void validateTitle(String title) {
