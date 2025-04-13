@@ -62,7 +62,8 @@ public class PostService {
         if (TitleValidator.isTitleBlank(title)) throw new IllegalArgumentException("제목은 한 글자 이상 입력해야합니다.");
         if (TitleValidator.isTitleExceedsLength(title, TITLE_LENGTH_LIMIT))
             throw new IllegalArgumentException("제목은 30글자 이하만 입력 가능합니다.");
-        // TODO: 중복 판별도 Validator 를 사용해서 할 수 있는지 확인필요함. 얘만 혼자 Repository 라서 신경쓰임
+        // TO.파트장님 !!!!!!!!!!!!!!!!!!!!!!!
+        // 요기 아래처럼 해도 괜찮나요? Validator 를 사용해서 구현하고 싶었는데 아무래도 list 전체에 접근해야해서 Repository 에서 메소드를 불러왔어요
         if (postRepository.isTitleDuplicated(title)) throw new IllegalArgumentException("이미 존재하는 제목입니다.");
     }
 
