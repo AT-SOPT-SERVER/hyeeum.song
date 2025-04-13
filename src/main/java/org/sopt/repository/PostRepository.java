@@ -28,14 +28,7 @@ public class PostRepository {
     }
 
     public boolean deletePostById(int id) {
-        for (Post post : postList) {
-            if (post.getId() == id) {
-//              postList.remove(postList.indexOf(post));
-                postList.remove(post);
-                return true;
-            }
-        }
-        return false;
+        return postList.removeIf(post -> post.getId() == id);
     }
 
     public List<Post> searchPostsByKeyword(String keyword) {
