@@ -6,6 +6,7 @@ import org.sopt.validator.TitleValidator;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.sopt.util.IdentifierGeneratorUtil.generateIdentifier;
 import static org.sopt.util.LastTimeStampGeneratorUtil.getLastTimeStamp;
@@ -32,7 +33,7 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public Post findPostById(int id) {
+    public Optional<Post> findPostById(int id) {
         return postRepository.findPostById(id);
     }
 
@@ -43,10 +44,10 @@ public class PostService {
     public boolean updatePostTitle(int updateId, String newTitle) {
         validateTitle(newTitle);
 
-        Post post = postRepository.findPostById(updateId);
-        if (post == null) return false;
+        Optional<Post> post = postRepository.findPostById(updateId);
+        if (post.isEmpty()) return false;
 
-        post.setTitle(newTitle);
+        post.get().setTitle(newTitle);
         return true;
     }
 

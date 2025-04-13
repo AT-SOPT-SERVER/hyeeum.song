@@ -4,6 +4,7 @@ import org.sopt.domain.Post;
 import org.sopt.service.PostService;
 
 import java.util.List;
+import java.util.Optional;
 
 //요청에 따라 서비스를 결정 - 요청을 받음
 public class PostController {
@@ -17,7 +18,7 @@ public class PostController {
         return postService.getAllPosts();
     }
 
-    public Post getPostById(int id) {
+    public Optional<Post> getPostById(int id) {
         return postService.findPostById(id);
     }
 

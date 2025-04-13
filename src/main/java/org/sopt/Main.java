@@ -4,6 +4,7 @@ import org.sopt.controller.PostController;
 import org.sopt.domain.Post;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -40,12 +41,12 @@ public class Main {
                         System.out.println("\n🔍 [게시글 상세 조회]");
                         System.out.print("📌 조회할 게시글 ID를 입력해주세요: ");
                         int id = Integer.parseInt(scanner.nextLine());
-                        Post found = controller.getPostById(id);
-                        if (found != null) {
+                        Optional<Post> found = controller.getPostById(id);
+                        if (found.isPresent()) {
                             System.out.println("📄 게시글 상세 내용:");
                             System.out.println("-------------------------------------");
-                            System.out.printf("🆔 ID: %d\n", found.getId());
-                            System.out.printf("📌 제목: %s\n", found.getTitle());
+                            System.out.printf("🆔 ID: %d\n", found.get().getId());
+                            System.out.printf("📌 제목: %s\n", found.get().getTitle());
                             System.out.println("-------------------------------------");
                         } else {
                             System.out.println("❌ 해당 ID의 게시글이 존재하지 않습니다.");

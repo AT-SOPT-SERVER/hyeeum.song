@@ -4,6 +4,7 @@ import org.sopt.domain.Post;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 //게시글 저장,삭제 책임 (저장소)
@@ -18,13 +19,13 @@ public class PostRepository {
         return postList;
     }
 
-    public Post findPostById(int id) {
+    public Optional<Post> findPostById(int id) {
         for (Post post : postList) {
             if (post.getId() == id) {
-                return post;
+                return Optional.of(post);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     public boolean deletePostById(int id) {
