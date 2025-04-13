@@ -7,7 +7,7 @@ import java.util.List;
 
 //요청에 따라 서비스를 결정 - 요청을 받음
 public class PostController {
-    private PostService postService = new PostService();
+    private final PostService postService = new PostService();
 
     public void createPost(String title) {
         postService.createPost(title);

@@ -14,7 +14,7 @@ import static org.sopt.validator.TimeStampValidator.validateLastTimeStampLimit;
 
 //레포지토리를 가져와서 사용하는 역할 (저장소 가져오기) - 로직
 public class PostService {
-    private PostRepository postRepository = new PostRepository();
+    private final PostRepository postRepository = new PostRepository();
     private static final int TITLE_LENGTH_LIMIT = 30;
     private static final int POST_TIME_LIMIT = 3;
 
