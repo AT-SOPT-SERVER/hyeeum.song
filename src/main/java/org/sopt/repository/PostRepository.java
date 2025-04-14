@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-//게시글 저장,삭제 책임 (저장소)
 public class PostRepository {
     List<Post> postList = new ArrayList<>();
 
