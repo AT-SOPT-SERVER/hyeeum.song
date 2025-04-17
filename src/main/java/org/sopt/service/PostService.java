@@ -47,7 +47,7 @@ public class PostService {
         Optional<Post> post = postRepository.findPostById(updateId);
         if (post.isEmpty()) return false;
 
-        post.get().setTitle(newTitle);
+        post.get().updateTitle(newTitle);
         return true;
     }
 
