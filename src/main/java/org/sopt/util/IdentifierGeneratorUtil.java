@@ -1,9 +1,9 @@
 package org.sopt.util;
 
 public class IdentifierGeneratorUtil {
-    private static int postId = 1;
+    private static long postId = 1;
 
-    public static int generateIdentifier() {
+    public static long generateIdentifier() {
         return postId++;
     }
 }
