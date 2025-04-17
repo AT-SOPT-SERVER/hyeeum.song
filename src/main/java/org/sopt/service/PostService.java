@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static org.sopt.constant.PostConstant.POST_TIME_LIMIT;
+import static org.sopt.constant.PostConstant.TITLE_LENGTH_LIMIT;
 import static org.sopt.exception.Error.*;
 import static org.sopt.util.IdentifierGeneratorUtil.generateIdentifier;
 import static org.sopt.util.LastTimeStampGeneratorUtil.getLastTimeStamp;
@@ -16,8 +18,6 @@ import static org.sopt.validator.TimeStampValidator.validateLastTimeStampLimit;
 
 public class PostService {
     private final PostRepository postRepository = new PostRepository();
-    private static final int TITLE_LENGTH_LIMIT = 30;
-    private static final int POST_TIME_LIMIT = 3;
 
     public void createPost(String title) {
         validateTimeStamp();
