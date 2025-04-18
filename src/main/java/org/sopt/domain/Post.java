@@ -4,7 +4,7 @@ public class Post {
     private final long id;
     private String title;
 
-    public Post(long id, String title) {
+    public Post(final long id, final String title) {
         this.id = id;
         this.title = title;
     }
@@ -17,7 +17,7 @@ public class Post {
         return this.title;
     }
 
-    public void updateTitle(String newTitle) {
+    public void updateTitle(final String newTitle) {
         this.title = newTitle;
     }
 }

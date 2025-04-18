@@ -19,7 +19,7 @@ import static org.sopt.validator.TimeStampValidator.validateLastTimeStampLimit;
 public class PostService {
     private final PostRepository postRepository = new PostRepository();
 
-    public void createPost(String title) {
+    public void createPost(final String title) {
         validateTimeStamp();
         validateTitle(title);
 
@@ -33,15 +33,15 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public Optional<Post> findPostById(int id) {
+    public Optional<Post> findPostById(final long id) {
         return postRepository.findPostById(id);
     }
 
-    public boolean deletePostById(int id) {
+    public boolean deletePostById(final long id) {
         return postRepository.deletePostById(id);
     }
 
-    public boolean updatePostTitle(int updateId, String newTitle) {
+    public boolean updatePostTitle(final long updateId, String newTitle) {
         validateTitle(newTitle);
 
         Optional<Post> post = postRepository.findPostById(updateId);
@@ -58,7 +58,7 @@ public class PostService {
         validateLastTimeStampLimit(getLastTimeStamp(), POST_TIME_LIMIT);
     }
 
-    public void validateTitle(String title) {
+    public void validateTitle(final String title) {
         if (TitleValidator.isTitleBlank(title)) throw new IllegalArgumentException(TITLE_BLANK_ERROR.getErrorMessage());
         if (TitleValidator.isTitleExceedsLength(title, TITLE_LENGTH_LIMIT))
             throw new IllegalArgumentException(TITLE_LENGTH_ERROR.getErrorMessage());
@@ -68,7 +68,7 @@ public class PostService {
             throw new IllegalArgumentException(TITLE_DUPLICATED_ERROR.getErrorMessage());
     }
 
-    public List<Post> searchPostsByKeyword(String keyword) {
+    public List<Post> searchPostsByKeyword(final String keyword) {
         return postRepository.searchPostsByKeyword(keyword);
     }
 }

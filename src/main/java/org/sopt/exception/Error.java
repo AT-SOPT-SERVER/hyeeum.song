@@ -12,7 +12,7 @@ public enum Error {
         this.errorMessage = errorMessage;
     }
 
-    public String getErrorMessage(Object... args) {
+    public String getErrorMessage(final Object... args) {
         return String.format(errorMessage, args);
     }
 }

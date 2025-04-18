@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class PostRepository {
     List<Post> postList = new ArrayList<>();
 
-    public void save(Post post) {
+    public void save(final Post post) {
         postList.add(post);
     }
 
@@ -18,7 +18,7 @@ public class PostRepository {
         return postList;
     }
 
-    public Optional<Post> findPostById(int id) {
+    public Optional<Post> findPostById(final long id) {
         for (Post post : postList) {
             if (post.getId() == id) {
                 return Optional.of(post);
@@ -27,17 +27,17 @@ public class PostRepository {
         return Optional.empty();
     }
 
-    public boolean deletePostById(int id) {
+    public boolean deletePostById(final long id) {
         return postList.removeIf(post -> post.getId() == id);
     }
 
-    public List<Post> searchPostsByKeyword(String keyword) {
+    public List<Post> searchPostsByKeyword(final String keyword) {
         return postList.stream()
                 .filter(post -> post.getTitle().contains(keyword))
                 .collect(Collectors.toList());
     }
 
-    public boolean isTitleDuplicated(String title) {
+    public boolean isTitleDuplicated(final String title) {
         for (Post postList : postList) {
             if (title.equals(postList.getTitle()))
                 return true;

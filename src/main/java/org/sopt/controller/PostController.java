@@ -17,15 +17,15 @@ public class PostController {
         return postService.getAllPosts();
     }
 
-    public Optional<Post> getPostById(int id) {
+    public Optional<Post> getPostById(final long id) {
         return postService.findPostById(id);
     }
 
-    public boolean deletePostById(int id) {
+    public boolean deletePostById(final long id) {
         return postService.deletePostById(id);
     }
 
-    public boolean updatePostTitle(int updateId, String newTitle) {
+    public boolean updatePostTitle(final long updateId, String newTitle) {
         return postService.updatePostTitle(updateId, newTitle);
     }
 
