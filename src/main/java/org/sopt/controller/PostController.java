@@ -16,32 +16,32 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PostMapping("/post")
+    @PostMapping("/posts")
     public void createPost(@RequestBody final PostRequest postRequest) {
         postService.createPost(postRequest.getTitle());
     }
 
-    @GetMapping("/post")
+    @GetMapping("/posts")
     public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
 
-    @GetMapping("/post/{id}")
+    @GetMapping("/posts/{id}")
     public Optional<Post> getPostById(@PathVariable("id") final long id) {
         return postService.findPostById(id);
     }
 
-    @DeleteMapping("/post/{id}")
+    @DeleteMapping("/posts/{id}")
     public void deletePostById(@PathVariable("id") final long id) {
         postService.deletePostById(id);
     }
 
-    @PutMapping("/post/{id}")
+    @PutMapping("/posts/{id}")
     public boolean updatePostTitle(@PathVariable("id") final long updateId, @RequestBody String newTitle) {
         return postService.updatePostTitle(updateId, newTitle);
     }
 
-    @GetMapping("post/search")
+    @GetMapping("posts/search")
     public List<Post> searchPostsByKeyword(@RequestParam("keyword") final String keyword) {
         return postService.searchPostsByKeyword(keyword);
     }
