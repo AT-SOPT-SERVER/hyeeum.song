@@ -10,12 +10,17 @@ import java.util.List;
 import java.util.Optional;
 
 public class PostController {
-    private final PostService postService = new PostService();
+    private final PostService postService;
+
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
 
     @PostMapping("/post")
     public void createPost(@RequestBody final PostRequest postRequest) {
         postService.createPost(postRequest.getTitle());
     }
+
     public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }

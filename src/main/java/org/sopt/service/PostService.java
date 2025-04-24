@@ -11,19 +11,22 @@ import java.util.Optional;
 import static org.sopt.constant.PostConstant.POST_TIME_LIMIT;
 import static org.sopt.constant.PostConstant.TITLE_LENGTH_LIMIT;
 import static org.sopt.exception.Error.*;
-import static org.sopt.util.IdentifierGeneratorUtil.generateIdentifier;
 import static org.sopt.util.LastTimeStampGeneratorUtil.getLastTimeStamp;
 import static org.sopt.util.LastTimeStampGeneratorUtil.setLastTimeStamp;
 import static org.sopt.validator.TimeStampValidator.validateLastTimeStampLimit;
 
 public class PostService {
-    private final PostRepository postRepository = new PostRepository();
+    private final PostRepository postRepository;
+
+    public PostService(PostRepository postRepository) {
+        this.postRepository = postRepository;
+    }
 
     public void createPost(final String title) {
         validateTimeStamp();
         validateTitle(title);
 
-        Post post = new Post(generateIdentifier(), title);
+        Post post = new Post(title);
         setLastTimeStamp();
 
         postRepository.save(post);

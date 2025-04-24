@@ -12,6 +12,10 @@ public class Post {
     private long id;
     private String title;
 
+    public Post() {
+
+    }
+
     public Post(final String title) {
         this.title = title;
     }
