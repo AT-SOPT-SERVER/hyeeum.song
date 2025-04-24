@@ -2,6 +2,7 @@ package org.sopt.controller;
 
 import org.sopt.constant.UriConstant;
 import org.sopt.dto.PostRequest;
+import org.sopt.dto.TitleUpdateRequest;
 import org.sopt.response.Response;
 import org.sopt.service.PostService;
 import org.sopt.util.ApiUtil;
@@ -38,8 +39,8 @@ public class PostController {
     }
 
     @PutMapping(UriConstant.POST_BY_ID_URI)
-    public ResponseEntity<?> updatePostTitle(@PathVariable("id") final long updateId, @RequestBody String newTitle) {
-        return ApiUtil.success(Response.OK, postService.updatePostTitle(updateId, newTitle));
+    public ResponseEntity<?> updatePostTitle(@PathVariable("id") final long updateId, @RequestBody TitleUpdateRequest titleUpdateRequest) {
+        return ApiUtil.success(Response.OK, postService.updatePostTitle(updateId, titleUpdateRequest.title()));
     }
 
     @GetMapping(UriConstant.SEARCH_POSTS_URI)
