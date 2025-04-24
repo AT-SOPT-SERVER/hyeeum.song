@@ -1,6 +1,7 @@
 package org.sopt.service;
 
 import org.sopt.domain.Post;
+import org.sopt.exception.CustomException;
 import org.sopt.repository.PostRepository;
 import org.sopt.validator.TitleValidator;
 import org.springframework.stereotype.Service;
@@ -68,13 +69,13 @@ public class PostService {
     }
 
     public void validateTitle(final String title) {
-        if (TitleValidator.isTitleBlank(title)) throw new IllegalArgumentException(TITLE_BLANK_ERROR.getErrorMessage());
+        if (TitleValidator.isTitleBlank(title)) throw new CustomException(TITLE_BLANK_ERROR);
         if (TitleValidator.isTitleExceedsLength(title, TITLE_LENGTH_LIMIT))
-            throw new IllegalArgumentException(TITLE_LENGTH_ERROR.getErrorMessage());
+            throw new CustomException(TITLE_LENGTH_ERROR);
         // TO.파트장님 !!!!!!!!!!!!!!!!!!!!!!!
         // 요기 아래처럼 해도 괜찮나요? Validator 를 사용해서 구현하고 싶었는데 아무래도 list 전체에 접근해야해서 Repository 에서 메소드를 불러왔어요
         if (postRepository.isTitleDuplicated(title))
-            throw new IllegalArgumentException(TITLE_DUPLICATED_ERROR.getErrorMessage());
+            throw new CustomException(TITLE_DUPLICATED_ERROR);
     }
 
     public List<Post> searchPostsByKeyword(final String keyword) {
