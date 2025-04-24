@@ -5,10 +5,12 @@ import org.sopt.dto.PostRequest;
 import org.sopt.service.PostService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
 
+@RestController
 public class PostController {
     private final PostService postService;
 
