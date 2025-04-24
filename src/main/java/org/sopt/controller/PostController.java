@@ -16,7 +16,7 @@ public class PostController {
 
     @PostMapping(UriConstant.POSTS)
     public void createPost(@RequestBody final PostRequest postRequest) {
-        postService.createPost(postRequest.getTitle());
+        postService.createPost(postRequest.title());
     }
 
     @GetMapping(UriConstant.POSTS)
