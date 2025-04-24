@@ -21,6 +21,7 @@ public class PostController {
         postService.createPost(postRequest.getTitle());
     }
 
+    @GetMapping("/post")
     public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
