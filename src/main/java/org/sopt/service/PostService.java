@@ -66,7 +66,7 @@ public class PostService {
 //            throw new IllegalArgumentException(TITLE_DUPLICATED_ERROR.getErrorMessage());
 //    }
 //
-//    public List<Post> searchPostsByKeyword(final String keyword) {
-//        return postRepository.searchPostsByKeyword(keyword);
-//    }
+    public List<Post> searchPostsByKeyword(final String keyword) {
+        return postRepository.searchPostsByKeyword(keyword);
+    }
 }

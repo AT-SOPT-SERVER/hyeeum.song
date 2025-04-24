@@ -41,7 +41,8 @@ public class PostController {
         return postService.updatePostTitle(updateId, newTitle);
     }
 
-//    public List<Post> searchPostsByKeyword(String keyword) {
-//        return postService.searchPostsByKeyword(keyword);
-//    }
+    @GetMapping("post/search")
+    public List<Post> searchPostsByKeyword(@RequestParam("keyword") final String keyword) {
+        return postService.searchPostsByKeyword(keyword);
+    }
 }
