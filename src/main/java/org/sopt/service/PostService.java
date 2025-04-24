@@ -35,8 +35,12 @@ public class PostService {
         return postRepository.findById(id);
     }
 
-    public void deletePostById(final long id) {
-        postRepository.deleteById(id);
+    public boolean deletePostById(final long id) {
+        if (postRepository.existsById(id)) {
+            postRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     public boolean updatePostTitle(final long updateId, String newTitle) {
@@ -49,7 +53,7 @@ public class PostService {
         return true;
     }
 
-//    public void validateTimeStamp() {
+    //    public void validateTimeStamp() {
 //        LocalDateTime lastTimeStamp = getLastTimeStamp();
 //
 //        if (lastTimeStamp == null) return;
