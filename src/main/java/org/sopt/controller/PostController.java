@@ -31,10 +31,11 @@ public class PostController {
         return postService.findPostById(id);
     }
 
-//    public boolean deletePostById(final long id) {
-//        return postService.deletePostById(id);
-//    }
-//
+    @DeleteMapping("/post/{id}")
+    public void deletePostById(@PathVariable("id") final long id) {
+        postService.deletePostById(id);
+    }
+
 //    public boolean updatePostTitle(final long updateId, String newTitle) {
 //        return postService.updatePostTitle(updateId, newTitle);
 //    }
