@@ -36,10 +36,11 @@ public class PostController {
         postService.deletePostById(id);
     }
 
-//    public boolean updatePostTitle(final long updateId, String newTitle) {
-//        return postService.updatePostTitle(updateId, newTitle);
-//    }
-//
+    @PutMapping("/post/{id}")
+    public boolean updatePostTitle(@PathVariable("id") final long updateId, @RequestBody String newTitle) {
+        return postService.updatePostTitle(updateId, newTitle);
+    }
+
 //    public List<Post> searchPostsByKeyword(String keyword) {
 //        return postService.searchPostsByKeyword(keyword);
 //    }

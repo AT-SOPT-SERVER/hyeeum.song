@@ -39,16 +39,16 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
-//    public boolean updatePostTitle(final long updateId, String newTitle) {
+    public boolean updatePostTitle(final long updateId, String newTitle) {
 //        validateTitle(newTitle);
-//
-//        Optional<Post> post = postRepository.findPostById(updateId);
-//        if (post.isEmpty()) return false;
-//
-//        post.get().updateTitle(newTitle);
-//        return true;
-//    }
-//
+
+        Optional<Post> post = postRepository.findById(updateId);
+        if (post.isEmpty()) return false;
+
+        post.get().updateTitle(newTitle);
+        return true;
+    }
+
 //    public void validateTimeStamp() {
 //        LocalDateTime lastTimeStamp = getLastTimeStamp();
 //
