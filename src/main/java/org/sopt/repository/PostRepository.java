@@ -13,4 +13,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT post FROM Post post WHERE post.title LIKE %:keyword%")
     List<Post> searchPostsByKeyword(@Param("keyword") final String keyword);
     //findByTitleContaining(String keyword) → 자동으로 SQL 쿼리 생성
+
+    @Query("SELECT COUNT(post) > 0 FROM Post post WHERE post.title = :title")
+    boolean isTitleDuplicated(@Param("title") String title);
 }
