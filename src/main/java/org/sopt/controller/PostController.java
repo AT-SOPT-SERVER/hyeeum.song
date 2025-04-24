@@ -1,7 +1,10 @@
 package org.sopt.controller;
 
 import org.sopt.domain.Post;
+import org.sopt.dto.PostRequest;
 import org.sopt.service.PostService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,10 +12,10 @@ import java.util.Optional;
 public class PostController {
     private final PostService postService = new PostService();
 
-    public void createPost(String title) {
-        postService.createPost(title);
+    @PostMapping("/post")
+    public void createPost(@RequestBody final PostRequest postRequest) {
+        postService.createPost(postRequest.getTitle());
     }
-
     public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
