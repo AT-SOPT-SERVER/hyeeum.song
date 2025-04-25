@@ -1,8 +1,9 @@
 package org.sopt.controller;
 
 import org.sopt.constant.PathConstant;
-import org.sopt.dto.PostRequest;
-import org.sopt.dto.TitleUpdateRequest;
+import org.sopt.dto.Request.PostRequest;
+import org.sopt.dto.Request.TitleUpdateRequest;
+import org.sopt.dto.Response.PostListResponse;
 import org.sopt.response.Response;
 import org.sopt.service.PostService;
 import org.sopt.util.ApiUtil;
@@ -25,7 +26,7 @@ public class PostController {
 
     @GetMapping(PathConstant.POSTS)
     public ResponseEntity<?> getAllPosts() {
-        return ApiUtil.success(Response.OK, postService.getAllPosts());
+        return ApiUtil.success(Response.OK, PostListResponse.of(postService.getAllPosts()));
     }
 
     @GetMapping(PathConstant.POST_BY_ID)
@@ -47,6 +48,6 @@ public class PostController {
 
     @GetMapping(PathConstant.SEARCH_POSTS)
     public ResponseEntity<?> searchPostsByKeyword(@RequestParam(PathConstant.PARAM_KEYWORD) final String keyword) {
-        return ApiUtil.success(Response.OK, postService.searchPostsByKeyword(keyword));
+        return ApiUtil.success(Response.OK, PostListResponse.of(postService.searchPostsByKeyword(keyword)));
     }
 }
