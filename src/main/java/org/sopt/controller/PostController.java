@@ -47,7 +47,7 @@ public class PostController {
     }
 
     @GetMapping(PathConstant.SEARCH_POSTS)
-    public ResponseEntity<?> searchPostsByKeyword(@RequestParam(PathConstant.PARAM_KEYWORD) final TitleRequest titleRequest) {
-        return ApiUtil.success(Response.OK, PostListResponse.of(postService.searchPostsByKeyword(titleRequest.title())));
+    public ResponseEntity<?> searchPostsByKeyword(@RequestParam(PathConstant.PARAM_KEYWORD) final String keyword) {
+        return ApiUtil.success(Response.OK, PostListResponse.of(postService.searchPostsByKeyword(keyword)));
     }
 }
