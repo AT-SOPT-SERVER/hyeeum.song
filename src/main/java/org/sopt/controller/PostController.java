@@ -2,7 +2,7 @@ package org.sopt.controller;
 
 import org.sopt.constant.PathConstant;
 import org.sopt.dto.Request.PostRequest;
-import org.sopt.dto.Request.TitleUpdateRequest;
+import org.sopt.dto.Request.TitleRequest;
 import org.sopt.dto.Response.PostListResponse;
 import org.sopt.response.Response;
 import org.sopt.service.PostService;
@@ -41,13 +41,13 @@ public class PostController {
     }
 
     @PutMapping(PathConstant.POST_BY_ID)
-    public ResponseEntity<?> updatePostTitle(@PathVariable(PathConstant.PATH_ID) final long updateId, @RequestBody TitleUpdateRequest titleUpdateRequest) {
-        postService.updatePostTitle(updateId, titleUpdateRequest.title());
+    public ResponseEntity<?> updatePostTitle(@PathVariable(PathConstant.PATH_ID) final long updateId, final @RequestBody TitleRequest titleRequest) {
+        postService.updatePostTitle(updateId, titleRequest.title());
         return ApiUtil.successWithNoData(Response.OK);
     }
 
     @GetMapping(PathConstant.SEARCH_POSTS)
-    public ResponseEntity<?> searchPostsByKeyword(@RequestParam(PathConstant.PARAM_KEYWORD) final String keyword) {
-        return ApiUtil.success(Response.OK, PostListResponse.of(postService.searchPostsByKeyword(keyword)));
+    public ResponseEntity<?> searchPostsByKeyword(@RequestParam(PathConstant.PARAM_KEYWORD) final TitleRequest titleRequest) {
+        return ApiUtil.success(Response.OK, PostListResponse.of(postService.searchPostsByKeyword(titleRequest.title())));
     }
 }
