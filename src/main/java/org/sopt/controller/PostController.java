@@ -20,7 +20,7 @@ public class PostController {
     @PostMapping(UriConstant.POSTS)
     public ResponseEntity<?> createPost(@RequestBody final PostRequest postRequest) {
         postService.createPost(postRequest.title());
-        return ApiUtil.success(Response.CREATED, null);
+        return ApiUtil.successWithNoData(Response.CREATED);
     }
 
     @GetMapping(UriConstant.POSTS)
@@ -35,12 +35,14 @@ public class PostController {
 
     @DeleteMapping(UriConstant.POST_BY_ID_URI)
     public ResponseEntity<?> deletePostById(@PathVariable("id") final long id) {
-        return ApiUtil.success(Response.OK, postService.deletePostById(id));
+        postService.deletePostById(id);
+        return ApiUtil.successWithNoData(Response.OK);
     }
 
     @PutMapping(UriConstant.POST_BY_ID_URI)
     public ResponseEntity<?> updatePostTitle(@PathVariable("id") final long updateId, @RequestBody TitleUpdateRequest titleUpdateRequest) {
-        return ApiUtil.success(Response.OK, postService.updatePostTitle(updateId, titleUpdateRequest.title()));
+        postService.updatePostTitle(updateId, titleUpdateRequest.title());
+        return ApiUtil.successWithNoData(Response.OK);
     }
 
     @GetMapping(UriConstant.SEARCH_POSTS_URI)

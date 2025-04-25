@@ -47,23 +47,21 @@ public class PostService {
                 .orElseThrow(PostNotFoundException::new);
     }
 
-    public boolean deletePostById(final long id) {
+    public void deletePostById(final long id) {
         if (postRepository.existsById(id)) {
             postRepository.deleteById(id);
-            return true;
         }
         throw new PostNotFoundException();
     }
 
     @Transactional
-    public boolean updatePostTitle(final long updateId, String newTitle) {
+    public void updatePostTitle(final long updateId, String newTitle) {
         validateTitle(newTitle);
 
         Optional<Post> post = postRepository.findById(updateId);
         if (post.isEmpty()) throw new PostNotFoundException();
 
         post.get().updateTitle(newTitle);
-        return true;
     }
 
     public void validateTimeStamp() {
