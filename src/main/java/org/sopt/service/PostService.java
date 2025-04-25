@@ -51,7 +51,7 @@ public class PostService {
         if (postRepository.existsById(id)) {
             postRepository.deleteById(id);
         }
-        throw new PostNotFoundException();
+        throw new PostNotFoundException(); // TODO: 이걸 여기서 던,,지는게 맞겠지
     }
 
     @Transactional
