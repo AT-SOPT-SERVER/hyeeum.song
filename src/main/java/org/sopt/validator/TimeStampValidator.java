@@ -5,7 +5,7 @@ import org.sopt.exception.PostTimeLimitException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import static org.sopt.constant.PostConstant.POST_TIME_LIMIT;
+import static org.sopt.constant.LimitConstant.POST_TIME_LIMIT;
 
 public class TimeStampValidator {
     public static void validateLastTimeStampLimit(final LocalDateTime lastTimeStamp, final int limitTime) {

@@ -1,6 +1,6 @@
 package org.sopt.controller;
 
-import org.sopt.constant.UriConstant;
+import org.sopt.constant.PathConstant;
 import org.sopt.dto.PostRequest;
 import org.sopt.dto.TitleUpdateRequest;
 import org.sopt.response.Response;
@@ -17,36 +17,36 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PostMapping(UriConstant.POSTS)
+    @PostMapping(PathConstant.POSTS)
     public ResponseEntity<?> createPost(@RequestBody final PostRequest postRequest) {
         postService.createPost(postRequest.title());
         return ApiUtil.successWithNoData(Response.CREATED);
     }
 
-    @GetMapping(UriConstant.POSTS)
+    @GetMapping(PathConstant.POSTS)
     public ResponseEntity<?> getAllPosts() {
         return ApiUtil.success(Response.OK, postService.getAllPosts());
     }
 
-    @GetMapping(UriConstant.POST_BY_ID_URI)
-    public ResponseEntity<?> getPostById(@PathVariable("id") final long id) {
+    @GetMapping(PathConstant.POST_BY_ID)
+    public ResponseEntity<?> getPostById(@PathVariable(PathConstant.PATH_ID) final long id) {
         return ApiUtil.success(Response.OK, postService.findPostById(id));
     }
 
-    @DeleteMapping(UriConstant.POST_BY_ID_URI)
-    public ResponseEntity<?> deletePostById(@PathVariable("id") final long id) {
+    @DeleteMapping(PathConstant.POST_BY_ID)
+    public ResponseEntity<?> deletePostById(@PathVariable(PathConstant.PATH_ID) final long id) {
         postService.deletePostById(id);
         return ApiUtil.successWithNoData(Response.OK);
     }
 
-    @PutMapping(UriConstant.POST_BY_ID_URI)
-    public ResponseEntity<?> updatePostTitle(@PathVariable("id") final long updateId, @RequestBody TitleUpdateRequest titleUpdateRequest) {
+    @PutMapping(PathConstant.POST_BY_ID)
+    public ResponseEntity<?> updatePostTitle(@PathVariable(PathConstant.PATH_ID) final long updateId, @RequestBody TitleUpdateRequest titleUpdateRequest) {
         postService.updatePostTitle(updateId, titleUpdateRequest.title());
         return ApiUtil.successWithNoData(Response.OK);
     }
 
-    @GetMapping(UriConstant.SEARCH_POSTS_URI)
-    public ResponseEntity<?> searchPostsByKeyword(@RequestParam("keyword") final String keyword) {
+    @GetMapping(PathConstant.SEARCH_POSTS)
+    public ResponseEntity<?> searchPostsByKeyword(@RequestParam(PathConstant.PARAM_KEYWORD) final String keyword) {
         return ApiUtil.success(Response.OK, postService.searchPostsByKeyword(keyword));
     }
 }
