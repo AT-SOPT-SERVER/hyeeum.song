@@ -1,3 +1,3 @@
-package org.sopt.dto;
+package org.sopt.dto.Request;
 
 public record TitleUpdateRequest(String title) {}
