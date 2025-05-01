@@ -1,35 +1,54 @@
 package org.sopt.controller;
 
-import org.sopt.domain.Post;
+import org.sopt.constant.PathConstant;
+import org.sopt.dto.Request.PostRequest;
+import org.sopt.dto.Request.TitleRequest;
+import org.sopt.dto.Response.PostListResponse;
+import org.sopt.response.Response;
 import org.sopt.service.PostService;
+import org.sopt.util.ApiUtil;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
+@RestController
+@RequestMapping(PathConstant.POSTS)
 public class PostController {
-    private final PostService postService = new PostService();
+    private final PostService postService;
 
-    public void createPost(String title) {
-        postService.createPost(title);
+    public PostController(PostService postService) {
+        this.postService = postService;
     }
 
-    public List<Post> getAllPosts() {
-        return postService.getAllPosts();
+    @PostMapping
+    public ResponseEntity<?> createPost(@RequestBody final PostRequest postRequest) {
+        postService.createPost(postRequest.title());
+        return ApiUtil.successWithNoData(Response.CREATED);
     }
 
-    public Optional<Post> getPostById(final long id) {
-        return postService.findPostById(id);
+    @GetMapping
+    public ResponseEntity<?> getAllPosts() {
+        return ApiUtil.success(Response.OK, PostListResponse.of(postService.getAllPosts()));
     }
 
-    public boolean deletePostById(final long id) {
-        return postService.deletePostById(id);
+    @GetMapping(PathConstant.ID)
+    public ResponseEntity<?> getPostById(@PathVariable(PathConstant.PATH_ID) final long id) {
+        return ApiUtil.success(Response.OK, postService.findPostById(id));
     }
 
-    public boolean updatePostTitle(final long updateId, String newTitle) {
-        return postService.updatePostTitle(updateId, newTitle);
+    @DeleteMapping(PathConstant.ID)
+    public ResponseEntity<?> deletePostById(@PathVariable(PathConstant.PATH_ID) final long id) {
+        postService.deletePostById(id);
+        return ApiUtil.successWithNoData(Response.OK);
     }
 
-    public List<Post> searchPostsByKeyword(String keyword) {
-        return postService.searchPostsByKeyword(keyword);
+    @PutMapping(PathConstant.ID)
+    public ResponseEntity<?> updatePostTitle(@PathVariable(PathConstant.PATH_ID) final long updateId, final @RequestBody TitleRequest titleRequest) {
+        postService.updatePostTitle(updateId, titleRequest.title());
+        return ApiUtil.successWithNoData(Response.OK);
+    }
+
+    @GetMapping(PathConstant.SEARCH)
+    public ResponseEntity<?> searchPostsByKeyword(@RequestParam(PathConstant.PARAM_KEYWORD) final String keyword) {
+        return ApiUtil.success(Response.OK, PostListResponse.of(postService.searchPostsByKeyword(keyword)));
     }
 }
