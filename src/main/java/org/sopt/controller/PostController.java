@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping(PathConstant.POSTS)
 public class PostController {
     private final PostService postService;
 
@@ -18,35 +19,35 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PostMapping(PathConstant.POSTS)
+    @PostMapping
     public ResponseEntity<?> createPost(@RequestBody final PostRequest postRequest) {
         postService.createPost(postRequest.title());
         return ApiUtil.successWithNoData(Response.CREATED);
     }
 
-    @GetMapping(PathConstant.POSTS)
+    @GetMapping
     public ResponseEntity<?> getAllPosts() {
         return ApiUtil.success(Response.OK, PostListResponse.of(postService.getAllPosts()));
     }
 
-    @GetMapping(PathConstant.POST_BY_ID)
+    @GetMapping(PathConstant.ID)
     public ResponseEntity<?> getPostById(@PathVariable(PathConstant.PATH_ID) final long id) {
         return ApiUtil.success(Response.OK, postService.findPostById(id));
     }
 
-    @DeleteMapping(PathConstant.POST_BY_ID)
+    @DeleteMapping(PathConstant.ID)
     public ResponseEntity<?> deletePostById(@PathVariable(PathConstant.PATH_ID) final long id) {
         postService.deletePostById(id);
         return ApiUtil.successWithNoData(Response.OK);
     }
 
-    @PutMapping(PathConstant.POST_BY_ID)
+    @PutMapping(PathConstant.ID)
     public ResponseEntity<?> updatePostTitle(@PathVariable(PathConstant.PATH_ID) final long updateId, final @RequestBody TitleRequest titleRequest) {
         postService.updatePostTitle(updateId, titleRequest.title());
         return ApiUtil.successWithNoData(Response.OK);
     }
 
-    @GetMapping(PathConstant.SEARCH_POSTS)
+    @GetMapping(PathConstant.SEARCH)
     public ResponseEntity<?> searchPostsByKeyword(@RequestParam(PathConstant.PARAM_KEYWORD) final String keyword) {
         return ApiUtil.success(Response.OK, PostListResponse.of(postService.searchPostsByKeyword(keyword)));
     }

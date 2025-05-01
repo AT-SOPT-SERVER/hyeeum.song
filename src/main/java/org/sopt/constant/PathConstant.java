@@ -12,6 +12,4 @@ public class PathConstant {
     // param
     public static final String PARAM_KEYWORD = "keyword";
 
-    public static final String POST_BY_ID = POSTS + ID;
-    public static final String SEARCH_POSTS = POSTS + SEARCH;
 }
