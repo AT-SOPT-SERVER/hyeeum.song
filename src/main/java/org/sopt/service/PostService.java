@@ -6,6 +6,7 @@ import org.sopt.domain.User;
 import org.sopt.exception.*;
 import org.sopt.repository.PostRepository;
 import org.sopt.repository.UserRepository;
+import org.sopt.validator.ContentValidator;
 import org.sopt.validator.TitleValidator;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.sopt.constant.LimitConstant.POST_TIME_LIMIT;
-import static org.sopt.constant.LimitConstant.TITLE_LENGTH_LIMIT;
+import static org.sopt.constant.LimitConstant.*;
 import static org.sopt.util.LastTimeStampGeneratorUtil.getLastTimeStamp;
 import static org.sopt.util.LastTimeStampGeneratorUtil.setLastTimeStamp;
 import static org.sopt.validator.TimeStampValidator.validateLastTimeStampLimit;
@@ -95,7 +95,9 @@ public class PostService {
 
     public void validateContent(final String content) {
         // TODO: title content 모두 공백 처리 방식이 같으므로 통일하기
-        if (content == null || content.isBlank()) throw new ContentBlankException();
+        if (ContentValidator.isContentBlank(content)) throw new ContentBlankException();
+        if (ContentValidator.isContentExceedsLength(content, CONTENT_LENGTH_LIMIT))
+            throw new ContentLengthException(CONTENT_LENGTH_LIMIT);
     }
 
     public List<Post> searchPostsByKeyword(final String keyword) {
