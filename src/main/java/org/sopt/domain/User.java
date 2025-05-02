@@ -16,7 +16,7 @@ public class User {
 
     }
 
-    public User(String name, String email) {
+    public User(String name) {
         this.name = name;
     }
 
