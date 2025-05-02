@@ -18,8 +18,12 @@ public class Post {
 
     }
 
-    public Post(final String title) {
+    public Post(
+            final String title,
+            final String content
+    ) {
         this.title = title;
+        this.content = content;
     }
 
     public long getId() {
@@ -28,6 +32,10 @@ public class Post {
 
     public String getTitle() {
         return this.title;
+    }
+
+    public String getContent() {
+        return this.content;
     }
 
     public void updateTitle(final String newTitle) {

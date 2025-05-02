@@ -28,11 +28,11 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public void createPost(final Long userId, final String title) {
+    public void createPost(final Long userId, final String title, final String content) {
         validateTimeStamp();
         validateTitle(title);
 
-        Post post = new Post(title);
+        Post post = new Post(title, content);
         setLastTimeStamp();
 
         postRepository.save(post);

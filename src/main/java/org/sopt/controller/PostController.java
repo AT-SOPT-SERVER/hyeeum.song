@@ -24,7 +24,7 @@ public class PostController {
             @RequestHeader Long userId,
             @RequestBody final PostRequest postRequest
     ) {
-        postService.createPost(userId, postRequest.title());
+        postService.createPost(userId, postRequest.title(), postRequest.content());
         return ApiUtil.successWithNoData(Response.CREATED);
     }
 
