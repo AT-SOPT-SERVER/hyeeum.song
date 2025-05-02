@@ -5,6 +5,7 @@ public enum Error {
     TITLE_BLANK_ERROR(40001, "제목은 비어있을 수 없습니다."),
     TITLE_LENGTH_ERROR(40002, "제목의 길이는 %d자를 넘을 수 없습니다."),
     POST_TIME_LIMIT_ERROR(40003, "마지막 게시글 작성 시간 %d분 후에 작성이 가능합니다."),
+    NOT_POST_USER_ERROR(40004, "게시글 작성자만 수정가능합니다."),
 
     // 404 Not Found
     INVALID_URL_ERROR(40401, "지원하지 않는 URL입니다."),
