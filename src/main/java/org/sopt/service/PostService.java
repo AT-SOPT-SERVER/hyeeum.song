@@ -33,6 +33,7 @@ public class PostService {
     public void createPost(final Long userId, final String title, final String content) {
         validateTimeStamp();
         validateTitle(title);
+        validateContent(content);
 
         User user = findUserById(userId);
         Post post = new Post(title, content, user);
@@ -90,6 +91,11 @@ public class PostService {
         // 요기 아래처럼 해도 괜찮나요? Validator 를 사용해서 구현하고 싶었는데 아무래도 list 전체에 접근해야해서 Repository 에서 메소드를 불러왔어요
         if (postRepository.isTitleDuplicated(title))
             throw new TitleDuplicatedException();
+    }
+
+    public void validateContent(final String content) {
+        // TODO: title content 모두 공백 처리 방식이 같으므로 통일하기
+        if (content == null || content.isBlank()) throw new ContentBlankException();
     }
 
     public List<Post> searchPostsByKeyword(final String keyword) {
