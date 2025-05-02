@@ -11,18 +11,22 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String author;
 
     public User() {
 
     }
 
     public User(String name) {
-        this.name = name;
+        this.author = name;
     }
 
     public Long getId() {
         return this.id;
+    }
+
+    public String getAuthor() {
+        return this.author;
     }
 
     @OneToMany(mappedBy = DataBaseConstant.USER)
