@@ -1,6 +1,7 @@
 package org.sopt.domain;
 
 import jakarta.persistence.*;
+import org.sopt.constant.DataBaseConstant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,6 @@ public class User {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = DataBaseConstant.USER)
     private List<Post> diaryEntities = new ArrayList<>();
 }

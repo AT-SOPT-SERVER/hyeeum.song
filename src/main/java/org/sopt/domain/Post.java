@@ -1,6 +1,7 @@
 package org.sopt.domain;
 
 import jakarta.persistence.*;
+import org.sopt.constant.DataBaseConstant;
 
 @Entity
 public class Post {
@@ -11,7 +12,7 @@ public class Post {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = DataBaseConstant.USER_ID)
     private User user;
 
     public Post() {
