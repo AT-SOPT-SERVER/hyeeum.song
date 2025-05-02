@@ -21,6 +21,10 @@ public class User {
         this.name = name;
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
     @OneToMany(mappedBy = DataBaseConstant.USER)
     private List<Post> diaryEntities = new ArrayList<>();
 }
