@@ -28,7 +28,7 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public void createPost(final String title) {
+    public void createPost(final Long userId, final String title) {
         validateTimeStamp();
         validateTitle(title);
 

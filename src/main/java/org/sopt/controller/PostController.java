@@ -20,8 +20,11 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createPost(@RequestBody final PostRequest postRequest) {
-        postService.createPost(postRequest.title());
+    public ResponseEntity<?> createPost(
+            @RequestHeader Long userId,
+            @RequestBody final PostRequest postRequest
+    ) {
+        postService.createPost(userId, postRequest.title());
         return ApiUtil.successWithNoData(Response.CREATED);
     }
 
