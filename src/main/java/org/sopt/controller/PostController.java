@@ -4,6 +4,7 @@ import org.sopt.constant.PathConstant;
 import org.sopt.dto.Request.PostRequest;
 import org.sopt.dto.Request.TitleRequest;
 import org.sopt.dto.Response.PostListResponse;
+import org.sopt.dto.Response.PostResponse;
 import org.sopt.response.Response;
 import org.sopt.service.PostService;
 import org.sopt.util.ApiUtil;
@@ -35,7 +36,7 @@ public class PostController {
 
     @GetMapping(PathConstant.ID)
     public ResponseEntity<?> getPostById(@PathVariable(PathConstant.PATH_ID) final long id) {
-        return ApiUtil.success(Response.OK, postService.findPostById(id));
+        return ApiUtil.success(Response.OK, PostResponse.from(postService.findPostById(id)));
     }
 
     @DeleteMapping(PathConstant.ID)
