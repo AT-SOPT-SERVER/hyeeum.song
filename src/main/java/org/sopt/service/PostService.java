@@ -1,11 +1,13 @@
 package org.sopt.service;
 
+import org.sopt.constant.DataBaseConstant;
 import org.sopt.domain.Post;
 import org.sopt.domain.User;
 import org.sopt.exception.*;
 import org.sopt.repository.PostRepository;
 import org.sopt.repository.UserRepository;
 import org.sopt.validator.TitleValidator;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +42,7 @@ public class PostService {
     }
 
     public List<Post> getAllPosts() {
-        return postRepository.findAll();
+        return postRepository.findAll(Sort.by(Sort.Direction.DESC, DataBaseConstant.ID));
     }
 
     public Post findPostById(final long id) {
