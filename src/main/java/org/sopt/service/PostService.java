@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static org.sopt.constant.LimitConstant.POST_TIME_LIMIT;
 import static org.sopt.constant.LimitConstant.TITLE_LENGTH_LIMIT;
@@ -33,8 +32,7 @@ public class PostService {
         validateTimeStamp();
         validateTitle(title);
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(UserNotFoundException::new);
+        User user = findUserById(userId);
         Post post = new Post(title, content, user);
 
         setLastTimeStamp();
@@ -50,21 +48,29 @@ public class PostService {
                 .orElseThrow(PostNotFoundException::new);
     }
 
-    public void deletePostById(final long id) {
-        if (postRepository.existsById(id)) {
-            postRepository.deleteById(id);
-        }
-        throw new PostNotFoundException(); // TODO: 이걸 여기서 던,,지는게 맞겠지
+    public void deletePostById(final long userId, final long id) {
+        Post post = findPostById(id);
+        boolean isPostOwner = post.getUser().getId() == userId;
+
+        if (!isPostOwner) throw new NotPostUserErrorException();
+
+        postRepository.deleteById(id);
     }
 
     @Transactional
-    public void updatePostTitle(final long updateId, String newTitle) {
-        validateTitle(newTitle);
+    public void updatePostTitle(final long userId, final long updateId, String newTitle) {
+        Post post = findPostById(updateId);
+        boolean isPostOwner = post.getUser().getId() == userId;
 
-        Optional<Post> post = postRepository.findById(updateId);
-        if (post.isEmpty()) throw new PostNotFoundException();
+        if (!isPostOwner) throw new NotPostUserErrorException();
 
-        post.get().updateTitle(newTitle);
+        post.updateTitle(newTitle);
+    }
+
+    // TODO: 이 기능이 여기있어도 되는,,,? 책임분리가 명확해보이지 않음ㅠ -> 인터셉터로 하는 방법 찾아보기
+    public User findUserById(final Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
     }
 
     public void validateTimeStamp() {

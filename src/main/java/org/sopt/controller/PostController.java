@@ -39,14 +39,18 @@ public class PostController {
     }
 
     @DeleteMapping(PathConstant.ID)
-    public ResponseEntity<?> deletePostById(@PathVariable(PathConstant.PATH_ID) final long id) {
-        postService.deletePostById(id);
+    public ResponseEntity<?> deletePostById(
+            @RequestHeader Long userId,
+            @PathVariable(PathConstant.PATH_ID) final long id) {
+        postService.deletePostById(userId, id);
         return ApiUtil.successWithNoData(Response.OK);
     }
 
     @PutMapping(PathConstant.ID)
-    public ResponseEntity<?> updatePostTitle(@PathVariable(PathConstant.PATH_ID) final long updateId, final @RequestBody TitleRequest titleRequest) {
-        postService.updatePostTitle(updateId, titleRequest.title());
+    public ResponseEntity<?> updatePostTitle(
+            @RequestHeader Long userId,
+            @PathVariable(PathConstant.PATH_ID) final long updateId, final @RequestBody TitleRequest titleRequest) {
+        postService.updatePostTitle(userId, updateId, titleRequest.title());
         return ApiUtil.successWithNoData(Response.OK);
     }
 
