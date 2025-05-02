@@ -5,6 +5,7 @@ public class PathConstant {
     public static final String POSTS = "/posts";
     public static final String ID = "/{id}";
     public static final String SEARCH = "/search";
+    public static final String USER = "/users";
 
     // path variable
     public static final String PATH_ID = "id";
