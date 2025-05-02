@@ -21,10 +21,12 @@ public class Post {
 
     public Post(
             final String title,
-            final String content
+            final String content,
+            final User user
     ) {
         this.title = title;
         this.content = content;
+        this.user = user;
     }
 
     public long getId() {
@@ -37,6 +39,10 @@ public class Post {
 
     public String getContent() {
         return this.content;
+    }
+
+    public User getUser() {
+        return this.user;
     }
 
     public void updateTitle(final String newTitle) {

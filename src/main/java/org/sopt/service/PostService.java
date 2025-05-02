@@ -1,11 +1,10 @@
 package org.sopt.service;
 
 import org.sopt.domain.Post;
-import org.sopt.exception.PostNotFoundException;
-import org.sopt.exception.TitleBlankException;
-import org.sopt.exception.TitleDuplicatedException;
-import org.sopt.exception.TitleLengthException;
+import org.sopt.domain.User;
+import org.sopt.exception.*;
 import org.sopt.repository.PostRepository;
+import org.sopt.repository.UserRepository;
 import org.sopt.validator.TitleValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,18 +22,22 @@ import static org.sopt.validator.TimeStampValidator.validateLastTimeStampLimit;
 @Service
 public class PostService {
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
     }
 
     public void createPost(final Long userId, final String title, final String content) {
         validateTimeStamp();
         validateTitle(title);
 
-        Post post = new Post(title, content);
-        setLastTimeStamp();
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
+        Post post = new Post(title, content, user);
 
+        setLastTimeStamp();
         postRepository.save(post);
     }
 
