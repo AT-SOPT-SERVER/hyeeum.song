@@ -26,8 +26,8 @@ public class UserService {
     }
 
     public void validateUserName(final String name) {
-        if (!UserNameValidator.isUserNameBlank(name)) throw new UserNameBlankException();
-        if (!UserNameValidator.isUserNameExceedsLength(name, USER_NAME_LENGTH_LIMIT))
+        if (UserNameValidator.isUserNameBlank(name)) throw new UserNameBlankException();
+        if (UserNameValidator.isUserNameExceedsLength(name, USER_NAME_LENGTH_LIMIT))
             throw new UserNameLengthException(USER_NAME_LENGTH_LIMIT);
     }
 }
