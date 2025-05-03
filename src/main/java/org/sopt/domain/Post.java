@@ -1,9 +1,7 @@
 package org.sopt.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.sopt.constant.DataBaseConstant;
 
 @Entity
 public class Post {
@@ -11,13 +9,24 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String title;
+    private String content;
+
+    @ManyToOne
+    @JoinColumn(name = DataBaseConstant.USER_ID)
+    private User user;
 
     public Post() {
 
     }
 
-    public Post(final String title) {
+    public Post(
+            final String title,
+            final String content,
+            final User user
+    ) {
         this.title = title;
+        this.content = content;
+        this.user = user;
     }
 
     public long getId() {
@@ -26,6 +35,14 @@ public class Post {
 
     public String getTitle() {
         return this.title;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public User getUser() {
+        return this.user;
     }
 
     public void updateTitle(final String newTitle) {

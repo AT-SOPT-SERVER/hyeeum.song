@@ -4,6 +4,7 @@ import org.sopt.constant.PathConstant;
 import org.sopt.dto.Request.PostRequest;
 import org.sopt.dto.Request.TitleRequest;
 import org.sopt.dto.Response.PostListResponse;
+import org.sopt.dto.Response.PostResponse;
 import org.sopt.response.Response;
 import org.sopt.service.PostService;
 import org.sopt.util.ApiUtil;
@@ -20,8 +21,11 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createPost(@RequestBody final PostRequest postRequest) {
-        postService.createPost(postRequest.title());
+    public ResponseEntity<?> createPost(
+            @RequestHeader Long userId,
+            @RequestBody final PostRequest postRequest
+    ) {
+        postService.createPost(userId, postRequest.title(), postRequest.content());
         return ApiUtil.successWithNoData(Response.CREATED);
     }
 
@@ -32,18 +36,22 @@ public class PostController {
 
     @GetMapping(PathConstant.ID)
     public ResponseEntity<?> getPostById(@PathVariable(PathConstant.PATH_ID) final long id) {
-        return ApiUtil.success(Response.OK, postService.findPostById(id));
+        return ApiUtil.success(Response.OK, PostResponse.from(postService.findPostById(id)));
     }
 
     @DeleteMapping(PathConstant.ID)
-    public ResponseEntity<?> deletePostById(@PathVariable(PathConstant.PATH_ID) final long id) {
-        postService.deletePostById(id);
+    public ResponseEntity<?> deletePostById(
+            @RequestHeader Long userId,
+            @PathVariable(PathConstant.PATH_ID) final long id) {
+        postService.deletePostById(userId, id);
         return ApiUtil.successWithNoData(Response.OK);
     }
 
     @PutMapping(PathConstant.ID)
-    public ResponseEntity<?> updatePostTitle(@PathVariable(PathConstant.PATH_ID) final long updateId, final @RequestBody TitleRequest titleRequest) {
-        postService.updatePostTitle(updateId, titleRequest.title());
+    public ResponseEntity<?> updatePostTitle(
+            @RequestHeader Long userId,
+            @PathVariable(PathConstant.PATH_ID) final long updateId, final @RequestBody TitleRequest titleRequest) {
+        postService.updatePostTitle(userId, updateId, titleRequest.title());
         return ApiUtil.successWithNoData(Response.OK);
     }
 
