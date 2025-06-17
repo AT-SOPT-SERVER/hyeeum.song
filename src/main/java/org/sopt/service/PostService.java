@@ -1,9 +1,11 @@
 package org.sopt.service;
 
 import org.sopt.constant.DataBaseConstant;
+import org.sopt.domain.Comment;
 import org.sopt.domain.Post;
 import org.sopt.domain.User;
 import org.sopt.exception.*;
+import org.sopt.repository.CommentRepository;
 import org.sopt.repository.PostRepository;
 import org.sopt.repository.UserRepository;
 import org.sopt.validator.ContentValidator;
@@ -24,10 +26,12 @@ import static org.sopt.validator.TimeStampValidator.validateLastTimeStampLimit;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, CommentRepository commentRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
     }
 
     public void createPost(final Long userId, final String title, final String content) {
@@ -96,11 +100,27 @@ public class PostService {
     public void validateContent(final String content) {
         // TODO: title content 모두 공백 처리 방식이 같으므로 통일하기
         if (ContentValidator.isContentBlank(content)) throw new ContentBlankException();
-        if (ContentValidator.isContentExceedsLength(content, CONTENT_LENGTH_LIMIT))
-            throw new ContentLengthException(CONTENT_LENGTH_LIMIT);
+        if (ContentValidator.isContentExceedsLength(content, POST_CONTENT_LENGTH_LIMIT))
+            throw new ContentLengthException(POST_CONTENT_LENGTH_LIMIT);
     }
 
     public List<Post> searchPostsByKeyword(final String keyword) {
         return postRepository.searchPostsByKeyword(keyword);
+    }
+
+    public void createComment(final Long userId, final Long postId, final String content) {
+        validateComment(content);
+
+        User user = findUserById(userId);
+        Post post = findPostById(postId);
+        Comment comment = new Comment(content, user, post);
+
+        commentRepository.save(comment);
+    }
+
+    public void validateComment(final String content) {
+        if (ContentValidator.isContentBlank(content)) throw new ContentBlankException();
+        if (ContentValidator.isContentExceedsLength(content, COMMENT_CONTENT_LENGTH_LIMIT))
+            throw new ContentLengthException(COMMENT_CONTENT_LENGTH_LIMIT);
     }
 }

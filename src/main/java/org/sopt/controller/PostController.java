@@ -1,6 +1,7 @@
 package org.sopt.controller;
 
 import org.sopt.constant.PathConstant;
+import org.sopt.dto.Request.CommentRequest;
 import org.sopt.dto.Request.PostRequest;
 import org.sopt.dto.Request.TitleRequest;
 import org.sopt.dto.Response.PostListResponse;
@@ -58,5 +59,15 @@ public class PostController {
     @GetMapping(PathConstant.SEARCH)
     public ResponseEntity<?> searchPostsByKeyword(@RequestParam(PathConstant.PARAM_KEYWORD) final String keyword) {
         return ApiUtil.success(Response.OK, PostListResponse.of(postService.searchPostsByKeyword(keyword)));
+    }
+
+    @PostMapping(PathConstant.ID + PathConstant.COMMENTS)
+    public ResponseEntity<?> createComment(
+            @RequestHeader Long userId,
+            @PathVariable(PathConstant.PATH_ID) Long postId,
+            @RequestBody final CommentRequest commentRequest
+    ) {
+        postService.createComment(userId, postId, commentRequest.content());
+        return ApiUtil.successWithNoData(Response.CREATED);
     }
 }
