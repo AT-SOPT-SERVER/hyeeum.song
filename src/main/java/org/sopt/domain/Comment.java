@@ -1,0 +1,43 @@
+package org.sopt.domain;
+
+import jakarta.persistence.*;
+import org.sopt.constant.DataBaseConstant;
+
+@Entity
+@Table(name = DataBaseConstant.Comment)
+public class Comment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String content;
+
+    @ManyToOne
+    @JoinColumn(name = DataBaseConstant.POST_ID)
+    private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = DataBaseConstant.USER_ID)
+    private User user;
+
+    public Comment() {
+
+    }
+
+    public Comment(
+            final String content,
+            final User user,
+            final Post post
+    ) {
+        this.content = content;
+        this.user = user;
+        this.post = post;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+}
