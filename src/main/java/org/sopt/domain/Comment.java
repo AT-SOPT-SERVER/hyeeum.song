@@ -46,4 +46,8 @@ public class Comment {
     public Post getPost() {
         return this.post;
     }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
 }

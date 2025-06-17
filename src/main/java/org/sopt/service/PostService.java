@@ -140,4 +140,16 @@ public class PostService {
         return commentRepository.findById(id)
                 .orElseThrow(CommentNotFoundException::new);
     }
+
+    @Transactional
+    public void updateComment(final Long userId, final Long postId, final Long commentId,final String content) {
+        postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+
+        Comment comment = findCommentById(commentId);
+
+        boolean isCommentOwner = Objects.equals(comment.getUser().getId(), userId);
+        if (!isCommentOwner) throw new NotUserErrorException();
+
+        comment.updateContent(content);
+    }
 }

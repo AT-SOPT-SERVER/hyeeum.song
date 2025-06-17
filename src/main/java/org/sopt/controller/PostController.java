@@ -72,12 +72,23 @@ public class PostController {
     }
 
     @DeleteMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID)
-    public ResponseEntity<?> createComment(
+    public ResponseEntity<?> deleteComment(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId,
             @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId
     ) {
         postService.deleteComment(userId, postId, commentId);
         return ApiUtil.successWithNoData(Response.CREATED);
+    }
+
+    @PutMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID)
+    public ResponseEntity<?> updateComment(
+            @RequestHeader Long userId,
+            @PathVariable(PathConstant.PATH_POST_ID) Long postId,
+            @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId,
+            @RequestBody final CommentRequest commentRequest
+    ) {
+        postService.updateComment(userId, postId, commentId, commentRequest.content());
+        return ApiUtil.successWithNoData(Response.OK);
     }
 }
