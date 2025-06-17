@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.sopt.constant.DataBaseConstant;
 
 @Entity
-@Table(name = DataBaseConstant.Comment)
+@Table(name = DataBaseConstant.COMMENT)
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
