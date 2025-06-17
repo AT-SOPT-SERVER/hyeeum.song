@@ -6,5 +6,5 @@ public class DataBaseConstant {
     public static final String USER_ID = "user_id";
     public static final String POST = "post";
     public static final String POST_ID = "post_id";
-    public static final String Comment = "comment";
+    public static final String Comment = "content";
 }
