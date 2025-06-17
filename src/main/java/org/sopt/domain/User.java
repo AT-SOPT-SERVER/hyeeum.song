@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = DataBaseConstant.USER)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

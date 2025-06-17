@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.sopt.constant.DataBaseConstant;
 
 @Entity
+@Table(name = DataBaseConstant.POST)
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
