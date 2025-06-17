@@ -29,7 +29,4 @@ public class User {
     public String getAuthor() {
         return this.author;
     }
-
-    @OneToMany(mappedBy = DataBaseConstant.USER)
-    private List<Post> diaryEntities = new ArrayList<>();
 }

@@ -12,7 +12,7 @@ public class Post {
     private String title;
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = DataBaseConstant.USER_ID)
     private User user;
 

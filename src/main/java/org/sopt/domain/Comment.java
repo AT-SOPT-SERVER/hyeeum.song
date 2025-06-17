@@ -11,11 +11,11 @@ public class Comment {
     private long id;
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = DataBaseConstant.POST_ID)
     private Post post;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = DataBaseConstant.USER_ID)
     private User user;
 
