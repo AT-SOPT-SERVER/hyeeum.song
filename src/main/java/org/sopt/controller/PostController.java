@@ -35,23 +35,23 @@ public class PostController {
         return ApiUtil.success(Response.OK, PostListResponse.of(postService.getAllPosts()));
     }
 
-    @GetMapping(PathConstant.ID)
-    public ResponseEntity<?> getPostById(@PathVariable(PathConstant.PATH_ID) final long id) {
+    @GetMapping(PathConstant.POST_ID)
+    public ResponseEntity<?> getPostById(@PathVariable(PathConstant.PATH_POST_ID) final long id) {
         return ApiUtil.success(Response.OK, PostResponse.from(postService.findPostById(id)));
     }
 
-    @DeleteMapping(PathConstant.ID)
+    @DeleteMapping(PathConstant.POST_ID)
     public ResponseEntity<?> deletePostById(
             @RequestHeader Long userId,
-            @PathVariable(PathConstant.PATH_ID) final long id) {
+            @PathVariable(PathConstant.PATH_POST_ID) final long id) {
         postService.deletePostById(userId, id);
         return ApiUtil.successWithNoData(Response.OK);
     }
 
-    @PutMapping(PathConstant.ID)
+    @PutMapping(PathConstant.POST_ID)
     public ResponseEntity<?> updatePostTitle(
             @RequestHeader Long userId,
-            @PathVariable(PathConstant.PATH_ID) final long updateId, final @RequestBody TitleRequest titleRequest) {
+            @PathVariable(PathConstant.PATH_POST_ID) final long updateId, final @RequestBody TitleRequest titleRequest) {
         postService.updatePostTitle(userId, updateId, titleRequest.title());
         return ApiUtil.successWithNoData(Response.OK);
     }
@@ -61,13 +61,23 @@ public class PostController {
         return ApiUtil.success(Response.OK, PostListResponse.of(postService.searchPostsByKeyword(keyword)));
     }
 
-    @PostMapping(PathConstant.ID + PathConstant.COMMENTS)
+    @PostMapping(PathConstant.POST_ID + PathConstant.COMMENTS)
     public ResponseEntity<?> createComment(
             @RequestHeader Long userId,
-            @PathVariable(PathConstant.PATH_ID) Long postId,
+            @PathVariable(PathConstant.PATH_POST_ID) Long postId,
             @RequestBody final CommentRequest commentRequest
     ) {
         postService.createComment(userId, postId, commentRequest.content());
+        return ApiUtil.successWithNoData(Response.CREATED);
+    }
+
+    @DeleteMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID)
+    public ResponseEntity<?> createComment(
+            @RequestHeader Long userId,
+            @PathVariable(PathConstant.PATH_POST_ID) Long postId,
+            @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId
+    ) {
+        postService.deleteComment(userId, postId, commentId);
         return ApiUtil.successWithNoData(Response.CREATED);
     }
 }

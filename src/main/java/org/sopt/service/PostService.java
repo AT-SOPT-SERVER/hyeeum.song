@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import static org.sopt.constant.LimitConstant.*;
 import static org.sopt.util.LastTimeStampGeneratorUtil.getLastTimeStamp;
@@ -59,7 +60,7 @@ public class PostService {
         Post post = findPostById(id);
         boolean isPostOwner = post.getUser().getId() == userId;
 
-        if (!isPostOwner) throw new NotPostUserErrorException();
+        if (!isPostOwner) throw new NotUserErrorException();
 
         postRepository.deleteById(id);
     }
@@ -69,7 +70,7 @@ public class PostService {
         Post post = findPostById(updateId);
         boolean isPostOwner = post.getUser().getId() == userId;
 
-        if (!isPostOwner) throw new NotPostUserErrorException();
+        if (!isPostOwner) throw new NotUserErrorException();
 
         post.updateTitle(newTitle);
     }
@@ -122,5 +123,21 @@ public class PostService {
         if (ContentValidator.isContentBlank(content)) throw new ContentBlankException();
         if (ContentValidator.isContentExceedsLength(content, COMMENT_CONTENT_LENGTH_LIMIT))
             throw new ContentLengthException(COMMENT_CONTENT_LENGTH_LIMIT);
+    }
+
+    public void deleteComment(final Long userId, final Long postId, final Long commentId) {
+        postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+
+        Comment comment = findCommentById(commentId);
+
+        boolean isCommentOwner = Objects.equals(comment.getUser().getId(), userId);
+        if (!isCommentOwner) throw new NotUserErrorException();
+
+        commentRepository.deleteById(commentId);
+    }
+
+    public Comment findCommentById(final long id) {
+        return commentRepository.findById(id)
+                .orElseThrow(CommentNotFoundException::new);
     }
 }
