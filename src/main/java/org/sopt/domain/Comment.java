@@ -40,4 +40,8 @@ public class Comment {
     public User getUser() {
         return this.user;
     }
+
+    public Post getPost() {
+        return this.post;
+    }
 }
