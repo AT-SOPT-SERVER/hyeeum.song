@@ -3,15 +3,14 @@ package org.sopt.domain;
 import jakarta.persistence.*;
 import org.sopt.constant.DataBaseConstant;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = DataBaseConstant.USER)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String author;
 
     public User() {
