@@ -8,6 +8,7 @@ public class PathConstant {
     public static final String USER = "/users";
     public static final String COMMENTS = "/comments";
     public static final String COMMENT_ID = "/{comment_id}";
+    public static final String LIKES = "/likes";
 
     // path variable
     public static final String PATH_POST_ID = "post_id";

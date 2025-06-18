@@ -22,6 +22,8 @@ public enum Error {
 
     // 409 Conflict
     TITLE_DUPLICATED_ERROR(40901, "중복된 게시글 제목입니다."),
+    POST_LIKE_DUPLICATED_ERROR(40902, "이미 좋아요한 게시글입니다."),
+    COMMENT_LIKE_DUPLICATED_ERROR(40903, "이미 좋아요한 댓글입니다."),
 
     // 500 Internal Server Error
     INTERNAL_SERVER_ERROR(50001, "서버 내부 오류입니다.");

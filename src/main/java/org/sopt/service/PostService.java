@@ -110,6 +110,7 @@ public class PostService {
     }
 
     public void createComment(final Long userId, final Long postId, final String content) {
+        findUserById(userId);
         validateComment(content);
 
         User user = findUserById(userId);
@@ -126,7 +127,8 @@ public class PostService {
     }
 
     public void deleteComment(final Long userId, final Long postId, final Long commentId) {
-        postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        findUserById(userId);
+        findPostById(postId);
 
         Comment comment = findCommentById(commentId);
 
@@ -142,8 +144,9 @@ public class PostService {
     }
 
     @Transactional
-    public void updateComment(final Long userId, final Long postId, final Long commentId,final String content) {
-        postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+    public void updateComment(final Long userId, final Long postId, final Long commentId, final String content) {
+        findUserById(userId);
+        findPostById(postId);
 
         Comment comment = findCommentById(commentId);
 
@@ -151,5 +154,51 @@ public class PostService {
         if (!isCommentOwner) throw new NotUserErrorException();
 
         comment.updateContent(content);
+    }
+
+    @Transactional
+    public void likeComment(final Long userId, final Long postId, final Long commentId) {
+        findUserById(userId);
+        findPostById(postId);
+
+        Comment comment = findCommentById(commentId);
+
+        if (comment.getIsLiked()) throw new CommentLikeDuplicatedException();
+
+        comment.like();
+    }
+
+    @Transactional
+    public void unlikeComment(final Long userId, final Long postId, final Long commentId) {
+        findUserById(userId);
+        findPostById(postId);
+
+        Comment comment = findCommentById(commentId);
+
+        boolean isCommentOwner = Objects.equals(comment.getUser().getId(), userId);
+        if (!isCommentOwner) throw new NotUserErrorException();
+
+        comment.unlike();
+    }
+
+    @Transactional
+    public void likePost(final Long userId, final Long postId) {
+        findUserById(userId);
+        Post post = findPostById(postId);
+
+        if (post.getIsLiked()) throw new PostLikeDuplicatedException();
+
+        post.like();
+    }
+
+    @Transactional
+    public void unlikePost(final Long userId, final Long postId) {
+        findUserById(userId);
+        Post post = findPostById(postId);
+
+        boolean isPostOwner = Objects.equals(post.getUser().getId(), userId);
+        if (!isPostOwner) throw new NotUserErrorException();
+
+        post.unlike();
     }
 }

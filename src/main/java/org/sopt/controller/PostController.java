@@ -91,4 +91,42 @@ public class PostController {
         postService.updateComment(userId, postId, commentId, commentRequest.content());
         return ApiUtil.successWithNoData(Response.OK);
     }
+
+    @PostMapping(PathConstant.POST_ID + PathConstant.LIKES)
+    public ResponseEntity<?> likePost(
+            @RequestHeader Long userId,
+            @PathVariable(PathConstant.PATH_POST_ID) Long postId
+    ) {
+        postService.likePost(userId, postId);
+        return ApiUtil.successWithNoData(Response.OK);
+    }
+
+    @DeleteMapping(PathConstant.POST_ID + PathConstant.LIKES)
+    public ResponseEntity<?> unlikePost(
+            @RequestHeader Long userId,
+            @PathVariable(PathConstant.PATH_POST_ID) Long postId
+    ) {
+        postService.unlikePost(userId, postId);
+        return ApiUtil.successWithNoData(Response.OK);
+    }
+
+    @PostMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID + PathConstant.LIKES)
+    public ResponseEntity<?> likeComment(
+            @RequestHeader Long userId,
+            @PathVariable(PathConstant.PATH_POST_ID) Long postId,
+            @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId
+    ) {
+        postService.likeComment(userId, postId, commentId);
+        return ApiUtil.successWithNoData(Response.OK);
+    }
+
+    @DeleteMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID + PathConstant.LIKES)
+    public ResponseEntity<?> unlikeComment(
+            @RequestHeader Long userId,
+            @PathVariable(PathConstant.PATH_POST_ID) Long postId,
+            @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId
+    ) {
+        postService.unlikeComment(userId, postId, commentId);
+        return ApiUtil.successWithNoData(Response.OK);
+    }
 }

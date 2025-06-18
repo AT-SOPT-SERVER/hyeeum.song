@@ -11,8 +11,15 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private String content;
+
+    @Column(nullable = false)
+    private Boolean isLiked = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = DataBaseConstant.USER_ID)
@@ -47,6 +54,10 @@ public class Post {
         return this.content;
     }
 
+    public boolean getIsLiked() {
+        return this.isLiked;
+    }
+
     public User getUser() {
         return this.user;
     }
@@ -57,5 +68,13 @@ public class Post {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public void like() {
+        this.isLiked = true;
+    }
+
+    public void unlike() {
+        this.isLiked = false;
     }
 }

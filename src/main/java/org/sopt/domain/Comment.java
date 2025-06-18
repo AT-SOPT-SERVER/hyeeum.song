@@ -10,8 +10,10 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
+
+    private Boolean isLiked = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = DataBaseConstant.POST_ID)
@@ -39,6 +41,10 @@ public class Comment {
         return this.content;
     }
 
+    public Boolean getIsLiked() {
+        return this.isLiked;
+    }
+
     public User getUser() {
         return this.user;
     }
@@ -49,5 +55,13 @@ public class Comment {
 
     public void updateContent(String content) {
         this.content = content;
+    }
+
+    public void like() {
+        this.isLiked = true;
+    }
+
+    public void unlike() {
+        this.isLiked = false;
     }
 }
