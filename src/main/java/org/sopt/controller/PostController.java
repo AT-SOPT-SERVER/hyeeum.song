@@ -2,8 +2,10 @@ package org.sopt.controller;
 
 import org.sopt.constant.PathConstant;
 import org.sopt.dto.Request.CommentRequest;
+import org.sopt.dto.Request.PagingDto;
 import org.sopt.dto.Request.PostRequest;
 import org.sopt.dto.Request.TitleRequest;
+import org.sopt.dto.Response.PagingPostListResponse;
 import org.sopt.dto.Response.PostListResponse;
 import org.sopt.dto.Response.PostResponse;
 import org.sopt.response.Response;
@@ -31,8 +33,18 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllPosts() {
-        return ApiUtil.success(Response.OK, PostListResponse.of(postService.getAllPosts()));
+    public ResponseEntity<?> getAllPosts(
+            @RequestBody final PagingDto pagingDto
+    ) {
+        return ApiUtil.success(Response.OK,
+                PagingPostListResponse.of(postService.getAllPosts(
+                                pagingDto.pageNumber() - 1,
+                                pagingDto.size(),
+                                pagingDto.sort(),
+                                pagingDto.standard()
+                        )
+                )
+        );
     }
 
     @GetMapping(PathConstant.POST_ID)

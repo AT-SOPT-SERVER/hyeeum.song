@@ -1,6 +1,5 @@
 package org.sopt.service;
 
-import org.sopt.constant.DataBaseConstant;
 import org.sopt.domain.Comment;
 import org.sopt.domain.Post;
 import org.sopt.domain.User;
@@ -10,6 +9,9 @@ import org.sopt.repository.PostRepository;
 import org.sopt.repository.UserRepository;
 import org.sopt.validator.ContentValidator;
 import org.sopt.validator.TitleValidator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +38,7 @@ public class PostService {
     }
 
     public void createPost(final Long userId, final String title, final String content) {
-        validateTimeStamp();
+        //validateTimeStamp();
         validateTitle(title);
         validateContent(content);
 
@@ -47,8 +49,12 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public List<Post> getAllPosts() {
-        return postRepository.findAll(Sort.by(Sort.Direction.DESC, DataBaseConstant.ID));
+    public Page<Post> getAllPosts(final Integer pageNumber, final Integer dataSize, final String sortOption, final String sortStandard) {
+
+        Sort sort = Sort.by(Sort.Direction.fromString(sortOption), sortStandard);
+        Pageable pageable = PageRequest.of(pageNumber, dataSize, sort);
+
+        return postRepository.findAll(pageable);
     }
 
     public Post findPostById(final long id) {
