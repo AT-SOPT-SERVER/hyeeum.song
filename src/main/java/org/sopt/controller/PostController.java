@@ -8,6 +8,7 @@ import org.sopt.dto.Request.TitleRequest;
 import org.sopt.dto.Response.PagingPostListResponse;
 import org.sopt.dto.Response.PostListResponse;
 import org.sopt.dto.Response.PostResponse;
+import org.sopt.response.ApiResponse;
 import org.sopt.response.Response;
 import org.sopt.service.PostService;
 import org.sopt.util.ApiUtil;
@@ -24,7 +25,7 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createPost(
+    public ResponseEntity<ApiResponse<Void>> createPost(
             @RequestHeader Long userId,
             @RequestBody final PostRequest postRequest
     ) {
@@ -33,7 +34,7 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllPosts(
+    public ResponseEntity<ApiResponse<PagingPostListResponse>> getAllPosts(
             @RequestBody final PagingDto pagingDto
     ) {
         return ApiUtil.success(Response.OK,
@@ -48,12 +49,12 @@ public class PostController {
     }
 
     @GetMapping(PathConstant.POST_ID)
-    public ResponseEntity<?> getPostById(@PathVariable(PathConstant.PATH_POST_ID) final long id) {
+    public ResponseEntity<ApiResponse<PostResponse>> getPostById(@PathVariable(PathConstant.PATH_POST_ID) final long id) {
         return ApiUtil.success(Response.OK, PostResponse.from(postService.findPostById(id)));
     }
 
     @DeleteMapping(PathConstant.POST_ID)
-    public ResponseEntity<?> deletePostById(
+    public ResponseEntity<ApiResponse<Void>> deletePostById(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) final long id) {
         postService.deletePostById(userId, id);
@@ -61,7 +62,7 @@ public class PostController {
     }
 
     @PutMapping(PathConstant.POST_ID)
-    public ResponseEntity<?> updatePostTitle(
+    public ResponseEntity<ApiResponse<Void>> updatePostTitle(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) final long updateId, final @RequestBody TitleRequest titleRequest) {
         postService.updatePostTitle(userId, updateId, titleRequest.title());
@@ -69,12 +70,12 @@ public class PostController {
     }
 
     @GetMapping(PathConstant.SEARCH)
-    public ResponseEntity<?> searchPostsByKeyword(@RequestParam(PathConstant.PARAM_KEYWORD) final String keyword) {
+    public ResponseEntity<ApiResponse<PostListResponse>> searchPostsByKeyword(@RequestParam(PathConstant.PARAM_KEYWORD) final String keyword) {
         return ApiUtil.success(Response.OK, PostListResponse.of(postService.searchPostsByKeyword(keyword)));
     }
 
     @PostMapping(PathConstant.POST_ID + PathConstant.COMMENTS)
-    public ResponseEntity<?> createComment(
+    public ResponseEntity<ApiResponse<Void>> createComment(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId,
             @RequestBody final CommentRequest commentRequest
@@ -84,7 +85,7 @@ public class PostController {
     }
 
     @DeleteMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID)
-    public ResponseEntity<?> deleteComment(
+    public ResponseEntity<ApiResponse<Void>> deleteComment(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId,
             @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId
@@ -94,7 +95,7 @@ public class PostController {
     }
 
     @PutMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID)
-    public ResponseEntity<?> updateComment(
+    public ResponseEntity<ApiResponse<Void>> updateComment(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId,
             @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId,
@@ -105,7 +106,7 @@ public class PostController {
     }
 
     @PostMapping(PathConstant.POST_ID + PathConstant.LIKES)
-    public ResponseEntity<?> likePost(
+    public ResponseEntity<ApiResponse<Void>> likePost(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId
     ) {
@@ -114,7 +115,7 @@ public class PostController {
     }
 
     @DeleteMapping(PathConstant.POST_ID + PathConstant.LIKES)
-    public ResponseEntity<?> unlikePost(
+    public ResponseEntity<ApiResponse<Void>> unlikePost(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId
     ) {
@@ -123,7 +124,7 @@ public class PostController {
     }
 
     @PostMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID + PathConstant.LIKES)
-    public ResponseEntity<?> likeComment(
+    public ResponseEntity<ApiResponse<Void>> likeComment(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId,
             @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId
@@ -133,7 +134,7 @@ public class PostController {
     }
 
     @DeleteMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID + PathConstant.LIKES)
-    public ResponseEntity<?> unlikeComment(
+    public ResponseEntity<ApiResponse<Void>> unlikeComment(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId,
             @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId
