@@ -1,5 +1,8 @@
 package org.sopt.exception;
 
+import lombok.Getter;
+
+@Getter
 public class CustomException extends RuntimeException {
     private final Error code;
     private final Object[] args;
@@ -10,11 +13,4 @@ public class CustomException extends RuntimeException {
         this.args = args;
     }
 
-    public Error getCode() {
-        return code;
-    }
-
-    public Object[] getArgs() {
-        return args;
-    }
 }

@@ -11,8 +11,6 @@ import org.sopt.dto.Response.PostResponse;
 import org.sopt.response.ApiResponse;
 import org.sopt.response.Response;
 import org.sopt.service.PostService;
-import org.sopt.util.ApiUtil;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,121 +23,122 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> createPost(
+    public ApiResponse<Void> createPost(
             @RequestHeader Long userId,
             @RequestBody final PostRequest postRequest
     ) {
         postService.createPost(userId, postRequest.title(), postRequest.content());
-        return ApiUtil.successWithNoData(Response.CREATED);
+        return ApiResponse.successWithNoData(Response.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<PagingPostListResponse>> getAllPosts(
+    public ApiResponse<PagingPostListResponse> getAllPosts(
             @RequestBody final PagingDto pagingDto
     ) {
-        return ApiUtil.success(Response.OK,
+        return ApiResponse.success(Response.OK,
                 PagingPostListResponse.of(postService.getAllPosts(
-                                pagingDto.pageNumber() - 1,
-                                pagingDto.size(),
-                                pagingDto.sort(),
-                                pagingDto.standard()
-                        )
-                )
-        );
+                        pagingDto.pageNumber() - 1,
+                        pagingDto.size(),
+                        pagingDto.sort(),
+                        pagingDto.standard()
+                )));
     }
 
     @GetMapping(PathConstant.POST_ID)
-    public ResponseEntity<ApiResponse<PostResponse>> getPostById(@PathVariable(PathConstant.PATH_POST_ID) final long id) {
-        return ApiUtil.success(Response.OK, PostResponse.from(postService.findPostById(id)));
+    public ApiResponse<PostResponse> getPostById(@PathVariable(PathConstant.PATH_POST_ID) final long id) {
+        return ApiResponse.success(Response.OK, PostResponse.from(postService.findPostById(id)));
     }
 
     @DeleteMapping(PathConstant.POST_ID)
-    public ResponseEntity<ApiResponse<Void>> deletePostById(
+    public ApiResponse<Void> deletePostById(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) final long id) {
         postService.deletePostById(userId, id);
-        return ApiUtil.successWithNoData(Response.OK);
+        return ApiResponse.successWithNoData(Response.OK);
     }
 
     @PutMapping(PathConstant.POST_ID)
-    public ResponseEntity<ApiResponse<Void>> updatePostTitle(
+    public ApiResponse<Void> updatePostTitle(
             @RequestHeader Long userId,
-            @PathVariable(PathConstant.PATH_POST_ID) final long updateId, final @RequestBody TitleRequest titleRequest) {
+            @PathVariable(PathConstant.PATH_POST_ID) final long updateId,
+            @RequestBody final TitleRequest titleRequest) {
         postService.updatePostTitle(userId, updateId, titleRequest.title());
-        return ApiUtil.successWithNoData(Response.OK);
+        return ApiResponse.successWithNoData(Response.OK);
     }
 
     @GetMapping(PathConstant.SEARCH)
-    public ResponseEntity<ApiResponse<PostListResponse>> searchPostsByKeyword(@RequestParam(PathConstant.PARAM_KEYWORD) final String keyword) {
-        return ApiUtil.success(Response.OK, PostListResponse.of(postService.searchPostsByKeyword(keyword)));
+    public ApiResponse<PostListResponse> searchPostsByKeyword(
+            @RequestParam(PathConstant.PARAM_KEYWORD) final String keyword) {
+        return ApiResponse.success(Response.OK,
+                PostListResponse.of(postService.searchPostsByKeyword(keyword)));
     }
 
     @PostMapping(PathConstant.POST_ID + PathConstant.COMMENTS)
-    public ResponseEntity<ApiResponse<Void>> createComment(
+    public ApiResponse<Void> createComment(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId,
             @RequestBody final CommentRequest commentRequest
     ) {
         postService.createComment(userId, postId, commentRequest.content());
-        return ApiUtil.successWithNoData(Response.CREATED);
+        return ApiResponse.successWithNoData(Response.CREATED);
     }
 
     @DeleteMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID)
-    public ResponseEntity<ApiResponse<Void>> deleteComment(
+    public ApiResponse<Void> deleteComment(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId,
             @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId
     ) {
         postService.deleteComment(userId, postId, commentId);
-        return ApiUtil.successWithNoData(Response.CREATED);
+        return ApiResponse.successWithNoData(Response.OK);
     }
 
     @PutMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID)
-    public ResponseEntity<ApiResponse<Void>> updateComment(
+    public ApiResponse<Void> updateComment(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId,
             @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId,
             @RequestBody final CommentRequest commentRequest
     ) {
         postService.updateComment(userId, postId, commentId, commentRequest.content());
-        return ApiUtil.successWithNoData(Response.OK);
+        return ApiResponse.successWithNoData(Response.OK);
     }
 
     @PostMapping(PathConstant.POST_ID + PathConstant.LIKES)
-    public ResponseEntity<ApiResponse<Void>> likePost(
+    public ApiResponse<Void> likePost(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId
     ) {
         postService.likePost(userId, postId);
-        return ApiUtil.successWithNoData(Response.OK);
+        return ApiResponse.successWithNoData(Response.OK);
     }
 
     @DeleteMapping(PathConstant.POST_ID + PathConstant.LIKES)
-    public ResponseEntity<ApiResponse<Void>> unlikePost(
+    public ApiResponse<Void> unlikePost(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId
     ) {
         postService.unlikePost(userId, postId);
-        return ApiUtil.successWithNoData(Response.OK);
+        return ApiResponse.successWithNoData(Response.OK);
     }
 
     @PostMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID + PathConstant.LIKES)
-    public ResponseEntity<ApiResponse<Void>> likeComment(
+    public ApiResponse<Void> likeComment(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId,
             @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId
     ) {
         postService.likeComment(userId, postId, commentId);
-        return ApiUtil.successWithNoData(Response.OK);
+        return ApiResponse.successWithNoData(Response.OK);
     }
 
     @DeleteMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID + PathConstant.LIKES)
-    public ResponseEntity<ApiResponse<Void>> unlikeComment(
+    public ApiResponse<Void> unlikeComment(
             @RequestHeader Long userId,
             @PathVariable(PathConstant.PATH_POST_ID) Long postId,
             @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId
     ) {
         postService.unlikeComment(userId, postId, commentId);
-        return ApiUtil.successWithNoData(Response.OK);
+        return ApiResponse.successWithNoData(Response.OK);
     }
 }

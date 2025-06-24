@@ -2,10 +2,9 @@ package org.sopt.controller;
 
 import org.sopt.constant.PathConstant;
 import org.sopt.dto.Request.UserRequest;
+import org.sopt.response.ApiResponse;
 import org.sopt.response.Response;
 import org.sopt.service.UserService;
-import org.sopt.util.ApiUtil;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +20,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(
-            @RequestBody final UserRequest userRequest
-    ) {
+    public ApiResponse<Void> createUser(@RequestBody final UserRequest userRequest) {
         userService.createUser(userRequest.name());
-        return ApiUtil.successWithNoData(Response.CREATED);
+        return ApiResponse.successWithNoData(Response.CREATED);
     }
 }

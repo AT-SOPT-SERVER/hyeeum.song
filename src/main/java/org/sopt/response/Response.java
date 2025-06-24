@@ -6,15 +6,15 @@ public enum Response {
     // 201 Created
     CREATED(201, "응답 성공");
 
-    private final long responseCode;
+    private final int responseCode;
     private final String responseMessage;
 
-    Response(long responseCode, String responseMessage) {
+    Response(int responseCode, String responseMessage) {
         this.responseCode = responseCode;
         this.responseMessage = responseMessage;
     }
 
-    public long getResponseCode() {
+    public int getResponseCode() {
         return responseCode;
     }
 
