@@ -1,10 +1,8 @@
 package org.sopt.service;
 
-import org.sopt.domain.Comment;
 import org.sopt.domain.Post;
 import org.sopt.domain.User;
 import org.sopt.exception.*;
-import org.sopt.repository.CommentRepository;
 import org.sopt.repository.PostRepository;
 import org.sopt.repository.UserRepository;
 import org.sopt.validator.ContentValidator;
@@ -29,12 +27,10 @@ import static org.sopt.validator.TimeStampValidator.validateLastTimeStampLimit;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-    private final CommentRepository commentRepository;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository, CommentRepository commentRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
-        this.commentRepository = commentRepository;
     }
 
     public void createPost(final Long userId, final String title, final String content) {
@@ -113,78 +109,6 @@ public class PostService {
 
     public List<Post> searchPostsByKeyword(final String keyword) {
         return postRepository.searchPostsByKeyword(keyword);
-    }
-
-    public void createComment(final Long userId, final Long postId, final String content) {
-        findUserById(userId);
-        validateComment(content);
-
-        User user = findUserById(userId);
-        Post post = findPostById(postId);
-        Comment comment = new Comment(content, user, post);
-
-        commentRepository.save(comment);
-    }
-
-    public void validateComment(final String content) {
-        if (ContentValidator.isContentBlank(content)) throw new ContentBlankException();
-        if (ContentValidator.isContentExceedsLength(content, COMMENT_CONTENT_LENGTH_LIMIT))
-            throw new ContentLengthException(COMMENT_CONTENT_LENGTH_LIMIT);
-    }
-
-    public void deleteComment(final Long userId, final Long postId, final Long commentId) {
-        findUserById(userId);
-        findPostById(postId);
-
-        Comment comment = findCommentById(commentId);
-
-        boolean isCommentOwner = Objects.equals(comment.getUser().getId(), userId);
-        if (!isCommentOwner) throw new NotUserErrorException();
-
-        commentRepository.deleteById(commentId);
-    }
-
-    public Comment findCommentById(final long id) {
-        return commentRepository.findById(id)
-                .orElseThrow(CommentNotFoundException::new);
-    }
-
-    @Transactional
-    public void updateComment(final Long userId, final Long postId, final Long commentId, final String content) {
-        findUserById(userId);
-        findPostById(postId);
-
-        Comment comment = findCommentById(commentId);
-
-        boolean isCommentOwner = Objects.equals(comment.getUser().getId(), userId);
-        if (!isCommentOwner) throw new NotUserErrorException();
-
-        comment.updateContent(content);
-    }
-
-    @Transactional
-    public void likeComment(final Long userId, final Long postId, final Long commentId) {
-        findUserById(userId);
-        findPostById(postId);
-
-        Comment comment = findCommentById(commentId);
-
-        if (comment.getIsLiked()) throw new CommentLikeDuplicatedException();
-
-        comment.like();
-    }
-
-    @Transactional
-    public void unlikeComment(final Long userId, final Long postId, final Long commentId) {
-        findUserById(userId);
-        findPostById(postId);
-
-        Comment comment = findCommentById(commentId);
-
-        boolean isCommentOwner = Objects.equals(comment.getUser().getId(), userId);
-        if (!isCommentOwner) throw new NotUserErrorException();
-
-        comment.unlike();
     }
 
     @Transactional

@@ -1,7 +1,6 @@
 package org.sopt.controller;
 
 import org.sopt.constant.PathConstant;
-import org.sopt.dto.Request.CommentRequest;
 import org.sopt.dto.Request.PagingDto;
 import org.sopt.dto.Request.PostRequest;
 import org.sopt.dto.Request.TitleRequest;
@@ -73,37 +72,6 @@ public class PostController {
                 PostListResponse.of(postService.searchPostsByKeyword(keyword)));
     }
 
-    @PostMapping(PathConstant.POST_ID + PathConstant.COMMENTS)
-    public ApiResponse<Void> createComment(
-            @RequestHeader Long userId,
-            @PathVariable(PathConstant.PATH_POST_ID) Long postId,
-            @RequestBody final CommentRequest commentRequest
-    ) {
-        postService.createComment(userId, postId, commentRequest.content());
-        return ApiResponse.successWithNoData(Response.CREATED);
-    }
-
-    @DeleteMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID)
-    public ApiResponse<Void> deleteComment(
-            @RequestHeader Long userId,
-            @PathVariable(PathConstant.PATH_POST_ID) Long postId,
-            @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId
-    ) {
-        postService.deleteComment(userId, postId, commentId);
-        return ApiResponse.successWithNoData(Response.OK);
-    }
-
-    @PutMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID)
-    public ApiResponse<Void> updateComment(
-            @RequestHeader Long userId,
-            @PathVariable(PathConstant.PATH_POST_ID) Long postId,
-            @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId,
-            @RequestBody final CommentRequest commentRequest
-    ) {
-        postService.updateComment(userId, postId, commentId, commentRequest.content());
-        return ApiResponse.successWithNoData(Response.OK);
-    }
-
     @PostMapping(PathConstant.POST_ID + PathConstant.LIKES)
     public ApiResponse<Void> likePost(
             @RequestHeader Long userId,
@@ -119,26 +87,6 @@ public class PostController {
             @PathVariable(PathConstant.PATH_POST_ID) Long postId
     ) {
         postService.unlikePost(userId, postId);
-        return ApiResponse.successWithNoData(Response.OK);
-    }
-
-    @PostMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID + PathConstant.LIKES)
-    public ApiResponse<Void> likeComment(
-            @RequestHeader Long userId,
-            @PathVariable(PathConstant.PATH_POST_ID) Long postId,
-            @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId
-    ) {
-        postService.likeComment(userId, postId, commentId);
-        return ApiResponse.successWithNoData(Response.OK);
-    }
-
-    @DeleteMapping(PathConstant.POST_ID + PathConstant.COMMENTS + PathConstant.COMMENT_ID + PathConstant.LIKES)
-    public ApiResponse<Void> unlikeComment(
-            @RequestHeader Long userId,
-            @PathVariable(PathConstant.PATH_POST_ID) Long postId,
-            @PathVariable(PathConstant.PATH_COMMENT_ID) Long commentId
-    ) {
-        postService.unlikeComment(userId, postId, commentId);
         return ApiResponse.successWithNoData(Response.OK);
     }
 }
