@@ -2,6 +2,7 @@ package org.sopt.exception;
 
 import lombok.Getter;
 
+@Getter
 public enum Error {
     // 400 Bad Request
     TITLE_BLANK_ERROR(40001, "제목은 비어있을 수 없습니다."),
@@ -30,7 +31,6 @@ public enum Error {
     // 500 Internal Server Error
     INTERNAL_SERVER_ERROR(50001, "서버 내부 오류입니다.");
 
-    @Getter
     private final int errorCode;
     private final String errorMessage;
 
@@ -39,7 +39,7 @@ public enum Error {
         this.errorMessage = errorMessage;
     }
 
-    public String getErrorMessage(final Object... args) {
-        return String.format(errorMessage, args);
+    public String getErrorMessage(Object... args) {
+        return String.format(this.errorMessage, args);
     }
 }

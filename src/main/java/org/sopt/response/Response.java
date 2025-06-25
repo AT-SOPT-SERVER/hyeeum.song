@@ -1,5 +1,8 @@
 package org.sopt.response;
 
+import lombok.Getter;
+
+@Getter
 public enum Response {
     // 200 Ok
     OK(200, "응답 성공"),
@@ -14,11 +17,4 @@ public enum Response {
         this.responseMessage = responseMessage;
     }
 
-    public int getResponseCode() {
-        return responseCode;
-    }
-
-    public String getResponseMessage() {
-        return responseMessage;
-    }
 }
