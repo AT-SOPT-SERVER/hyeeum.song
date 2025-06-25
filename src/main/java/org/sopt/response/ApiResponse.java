@@ -3,8 +3,6 @@ package org.sopt.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.sopt.exception.Error;
 
-import java.util.Arrays;
-
 public record ApiResponse<T>(
         int status,
         String message,
@@ -24,6 +22,7 @@ public record ApiResponse<T>(
     }
 
     public static <T> ApiResponse<T> failureWithArgs(Error errorCode, Object[] errorMessage) {
-        return new ApiResponse<>(errorCode.getErrorCode(), Arrays.toString(errorMessage), null);
+        String formattedMessage = String.format(errorCode.getErrorMessage(), errorMessage);
+        return new ApiResponse<>(errorCode.getErrorCode(), formattedMessage, null);
     }
 }
